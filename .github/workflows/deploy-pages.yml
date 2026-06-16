@@ -2,7 +2,7 @@ name: Deploy site to GitHub Pages
 
 on:
   push:
-    branches: ["claude/install-uiux-pro-max-skill-fcumwy"]
+    branches: ["main", "claude/install-uiux-pro-max-skill-fcumwy"]
     paths:
       - "site/**"
       - ".github/workflows/deploy-pages.yml"
