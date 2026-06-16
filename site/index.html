@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -16,13 +16,8 @@
       theme: {
         extend: {
           colors: {
-            ink:    '#0C0A09',
-            stone900: '#1C1917',
-            stone700: '#44403C',
-            stone600: '#57534E',
-            sand:   '#FAFAF9',
-            gold:   '#CA8A04',
-            goldlight: '#E3B341',
+            ink: '#0C0A09', stone900: '#1C1917', stone700: '#44403C', stone600: '#57534E',
+            sand: '#FAFAF9', gold: '#CA8A04', goldlight: '#E3B341',
           },
           fontFamily: {
             display: ['Cormorant', 'Georgia', 'serif'],
@@ -34,57 +29,117 @@
   </script>
 
   <style>
-    body { font-family: 'Montserrat', system-ui, sans-serif; }
+    :root { --gold: #CA8A04; --goldlight: #E3B341; }
+    body { font-family: 'Montserrat', system-ui, sans-serif; background: #0C0A09; }
     .font-display { font-family: 'Cormorant', Georgia, serif; }
     .tracking-luxe { letter-spacing: 0.28em; }
+    ::selection { background: rgba(202,138,4,.25); }
 
-    /* Reveal-on-scroll */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    /* ---------- Scroll reveal (staggered, directional) ---------- */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
+    .reveal.from-left  { transform: translateX(-40px); }
+    .reveal.from-right { transform: translateX(40px); }
+    .reveal.zoom       { transform: scale(.92); }
     .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Aurora (animated layered gradients) ---------- */
+    .aurora { position: absolute; inset: -25%; filter: blur(70px); opacity: .55; pointer-events: none; }
+    .aurora span { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
+    .aurora .a1 { width: 55vw; height: 55vw; left: -5%; top: -10%; background: radial-gradient(circle at 30% 30%, #1e6f78, transparent 60%); animation: drift1 22s ease-in-out infinite; }
+    .aurora .a2 { width: 50vw; height: 50vw; right: -8%; top: 5%; background: radial-gradient(circle at 60% 40%, #b5870f, transparent 62%); animation: drift2 27s ease-in-out infinite; }
+    .aurora .a3 { width: 48vw; height: 48vw; left: 25%; bottom: -20%; background: radial-gradient(circle at 50% 50%, #0e3a52, transparent 60%); animation: drift3 31s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(8%,6%) scale(1.12)} }
+    @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-7%,9%) scale(1.18)} }
+    @keyframes drift3 { 0%,100%{transform:translate(0,0) scale(1.05)} 50%{transform:translate(6%,-8%) scale(.95)} }
+
+    /* ---------- Shifting gradient backgrounds ---------- */
+    .gradient-shift {
+      background: linear-gradient(120deg, #0C0A09, #1C1917, #14110f, #1a140a, #0C0A09);
+      background-size: 300% 300%;
+      animation: gradShift 18s ease infinite;
+    }
+    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    /* ---------- Floating elements ---------- */
+    .float-slow { animation: floatY 7s ease-in-out infinite; }
+    .float-med  { animation: floatY 5s ease-in-out infinite; }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+    /* ---------- Gold shimmer text ---------- */
+    .shimmer {
+      background: linear-gradient(100deg, var(--gold) 20%, #fff6d8 45%, var(--gold) 70%);
+      background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmerMove 5s linear infinite;
+    }
+    @keyframes shimmerMove { to { background-position: 200% center; } }
+
+    /* ---------- Premium card hover ---------- */
+    .card-lux { transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease, border-color .5s ease; }
+    .card-lux:hover { transform: translateY(-10px); box-shadow: 0 30px 60px -25px rgba(0,0,0,.7), 0 0 0 1px rgba(202,138,4,.35); }
+    .card-lux:hover .card-img { transform: scale(1.08); }
+    .card-img { transition: transform .9s cubic-bezier(.16,1,.3,1); }
+    /* sheen sweep */
+    .sheen { position: relative; overflow: hidden; }
+    .sheen::after {
+      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,.18), transparent);
+      transform: skewX(-20deg); transition: left .8s ease;
+    }
+    .card-lux:hover .sheen::after, .btn-sheen:hover::after { left: 130%; }
+    .btn-sheen { position: relative; overflow: hidden; }
+    .btn-sheen::after {
+      content: ""; position: absolute; top: 0; left: -120%; width: 50%; height: 100%;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-20deg); transition: left .7s ease;
+    }
+
+    /* ---------- Animated underline links ---------- */
+    .nav-link { position: relative; }
+    .nav-link::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0; background: var(--gold); transition: width .35s ease; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ---------- Scroll progress bar ---------- */
+    #progress { position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 60; background: linear-gradient(90deg, var(--gold), var(--goldlight)); }
+
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .aurora span, .gradient-shift, .float-slow, .float-med, .shimmer { animation: none !important; }
+      .card-img, .card-lux { transition: none !important; }
+      #particles { display: none; }
     }
-
-    /* Visible focus ring for keyboard users */
-    :focus-visible { outline: 2px solid #CA8A04; outline-offset: 3px; border-radius: 2px; }
   </style>
 </head>
 
-<body class="bg-sand text-ink antialiased selection:bg-gold/20">
+<body class="bg-ink text-sand antialiased">
 
-  <!-- Skip link -->
+  <div id="progress" aria-hidden="true"></div>
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-stone900 focus:text-sand focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
 
   <!-- ============ NAVBAR ============ -->
-  <header id="nav" class="fixed inset-x-0 top-0 z-40 transition-all duration-300">
+  <header id="nav" class="fixed inset-x-0 top-0 z-40">
     <div class="mx-auto max-w-7xl px-5">
-      <nav class="mt-4 flex items-center justify-between rounded-full border border-white/10 bg-ink/40 px-5 py-3 backdrop-blur-md transition-colors duration-300" aria-label="Primary">
+      <nav class="mt-4 flex items-center justify-between rounded-full border border-white/10 bg-ink/30 px-5 py-3 backdrop-blur-md transition-all duration-300" aria-label="Primary">
         <a href="#top" class="flex items-center gap-2.5 text-sand">
-          <svg class="h-7 w-7 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <svg class="h-7 w-7 text-gold float-med" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
             <path d="M3 16l9-12 9 12" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 16c2.5 2 6 3 9 3s6.5-1 9-3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span class="font-display text-2xl font-600 leading-none">Luxury <span class="text-gold">Yachts</span></span>
         </a>
-
         <ul class="hidden items-center gap-8 text-sm font-300 text-sand/90 md:flex">
-          <li><a class="transition-colors duration-200 hover:text-gold" href="#fleet">Fleet</a></li>
-          <li><a class="transition-colors duration-200 hover:text-gold" href="#services">Services</a></li>
-          <li><a class="transition-colors duration-200 hover:text-gold" href="#about">About</a></li>
-          <li><a class="transition-colors duration-200 hover:text-gold" href="#testimonials">Clients</a></li>
+          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#fleet">Fleet</a></li>
+          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#services">Services</a></li>
+          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#about">About</a></li>
+          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#testimonials">Clients</a></li>
         </ul>
-
-        <a href="#contact" class="hidden cursor-pointer rounded-full bg-gold px-5 py-2.5 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight md:inline-block">Contact Sales</a>
-
-        <!-- Mobile toggle -->
+        <a href="#contact" class="btn-sheen hidden cursor-pointer rounded-full bg-gold px-5 py-2.5 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight md:inline-block">Contact Sales</a>
         <button id="menuBtn" class="cursor-pointer rounded-full p-2 text-sand md:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
           <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
         </button>
       </nav>
-
-      <!-- Mobile menu -->
       <div id="mobileMenu" class="mt-2 hidden rounded-2xl border border-white/10 bg-ink/90 p-4 backdrop-blur-md md:hidden">
         <ul class="flex flex-col gap-1 text-sand">
           <li><a class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-gold" href="#fleet">Fleet</a></li>
@@ -100,25 +155,32 @@
   <main id="main">
 
     <!-- ============ HERO ============ -->
-    <section id="top" class="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <img
-        src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=2000&q=80"
-        alt="A white superyacht cruising on deep blue open water at golden hour"
-        class="absolute inset-0 h-full w-full object-cover"
-        loading="eager" fetchpriority="high" />
-      <div class="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/45 to-ink/85"></div>
+    <section id="top" class="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink">
+      <!-- Aurora -->
+      <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+      <!-- Particle canvas -->
+      <canvas id="particles" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+      <!-- Background image -->
+      <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=2000&q=80"
+           alt="A white superyacht cruising on deep blue open water at golden hour"
+           class="absolute inset-0 h-full w-full object-cover opacity-30" loading="eager" fetchpriority="high" />
+      <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink"></div>
 
-      <div class="relative z-10 mx-auto max-w-4xl px-6 text-center text-sand">
+      <!-- Floating decorative rings -->
+      <div class="pointer-events-none absolute left-[8%] top-[22%] hidden h-24 w-24 rounded-full border border-gold/20 float-slow md:block" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute right-[10%] bottom-[24%] hidden h-16 w-16 rounded-full border border-gold/30 float-med md:block" aria-hidden="true"></div>
+
+      <div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <p class="reveal mb-6 text-xs font-500 uppercase tracking-luxe text-gold">Bespoke Yacht Brokerage · Est. 1998</p>
-        <h1 class="reveal font-display text-5xl font-500 leading-[1.05] sm:text-6xl md:text-7xl lg:text-8xl">
-          The Sea, <span class="italic text-gold">Perfected.</span>
+        <h1 class="reveal font-display text-5xl font-500 leading-[1.05] sm:text-6xl md:text-7xl lg:text-8xl" style="transition-delay:.08s">
+          The Sea, <span class="italic shimmer">Perfected.</span>
         </h1>
-        <p class="reveal mx-auto mt-6 max-w-2xl text-base font-300 leading-relaxed text-sand/85 sm:text-lg">
+        <p class="reveal mx-auto mt-6 max-w-2xl text-base font-300 leading-relaxed text-sand/85 sm:text-lg" style="transition-delay:.16s">
           A discreet brokerage for the world's most distinguished vessels. We curate, broker, and deliver superyachts for owners who accept nothing short of extraordinary.
         </p>
-        <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href="#fleet" class="w-full cursor-pointer rounded-full bg-gold px-8 py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight sm:w-auto">Explore the Fleet</a>
-          <a href="#contact" class="w-full cursor-pointer rounded-full border border-sand/30 px-8 py-4 text-sm font-500 text-sand transition-colors duration-200 hover:border-gold hover:text-gold sm:w-auto">Speak with a Broker</a>
+        <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style="transition-delay:.24s">
+          <a href="#fleet" class="btn-sheen w-full cursor-pointer rounded-full bg-gold px-8 py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight sm:w-auto">Explore the Fleet</a>
+          <a href="#contact" class="w-full cursor-pointer rounded-full border border-sand/30 px-8 py-4 text-sm font-500 text-sand transition-all duration-300 hover:border-gold hover:text-gold sm:w-auto">Speak with a Broker</a>
         </div>
       </div>
 
@@ -128,100 +190,76 @@
     </section>
 
     <!-- ============ STATS ============ -->
-    <section id="stats" class="bg-stone900 text-sand">
+    <section id="stats" class="gradient-shift text-sand">
       <div class="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
-        <div class="reveal p-8 text-center md:p-12">
-          <p class="font-display text-4xl font-600 text-gold md:text-5xl">$2.4B+</p>
-          <p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Vessels Sold</p>
-        </div>
-        <div class="reveal p-8 text-center md:p-12">
-          <p class="font-display text-4xl font-600 text-gold md:text-5xl">320+</p>
-          <p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Yachts Brokered</p>
-        </div>
-        <div class="reveal p-8 text-center md:p-12">
-          <p class="font-display text-4xl font-600 text-gold md:text-5xl">27</p>
-          <p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Years at Sea</p>
-        </div>
-        <div class="reveal p-8 text-center md:p-12">
-          <p class="font-display text-4xl font-600 text-gold md:text-5xl">14</p>
-          <p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Global Offices</p>
-        </div>
+        <div class="reveal zoom p-8 text-center md:p-12"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="2.4" data-suffix="B+" data-prefix="$">$0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Vessels Sold</p></div>
+        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.08s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="320" data-suffix="+">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Yachts Brokered</p></div>
+        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.16s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="27">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Years at Sea</p></div>
+        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.24s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="14">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Global Offices</p></div>
       </div>
     </section>
 
     <!-- ============ FLEET ============ -->
-    <section id="fleet" class="mx-auto max-w-7xl px-6 py-24 md:py-32">
-      <div class="reveal mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+    <section id="fleet" class="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
+      <div class="mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Featured Listings</p>
-          <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">A Curated Fleet</h2>
-          <p class="mt-4 max-w-xl text-stone700">Each vessel is personally inspected and represented by a dedicated broker. Prices shown in USD; full specification dossiers available on request.</p>
+          <p class="reveal from-left mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Featured Listings</p>
+          <h2 class="reveal from-left font-display text-4xl font-500 leading-tight md:text-5xl" style="transition-delay:.06s">A Curated Fleet</h2>
+          <p class="reveal from-left mt-4 max-w-xl text-sand/60" style="transition-delay:.12s">Each vessel is personally inspected and represented by a dedicated broker. Prices shown in USD; full specification dossiers available on request.</p>
         </div>
-        <a href="#contact" class="cursor-pointer whitespace-nowrap border-b border-gold pb-1 text-sm font-600 text-stone900 transition-colors hover:text-gold">View full inventory →</a>
+        <a href="#contact" class="reveal from-right nav-link cursor-pointer whitespace-nowrap pb-1 text-sm font-600 text-gold">View full inventory →</a>
       </div>
 
       <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-        <!-- Card -->
-        <article class="reveal group overflow-hidden rounded-2xl border border-stone700/15 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl">
-          <div class="relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=900&q=80" alt="Sleek modern motor yacht moored in calm turquoise water" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900">
+          <div class="sheen relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=900&q=80" alt="Sleek modern motor yacht moored in calm turquoise water" loading="lazy" class="card-img h-full w-full object-cover" />
             <span class="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 text-xs font-500 uppercase tracking-widest text-gold backdrop-blur">For Sale</span>
           </div>
           <div class="p-6">
-            <div class="flex items-baseline justify-between">
-              <h3 class="font-display text-2xl font-600">Aurelia</h3>
-              <p class="font-display text-xl font-600 text-gold">$32.5M</p>
-            </div>
-            <p class="mt-1 text-sm text-stone600">2021 · Benetti · Italy</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-stone700/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Length</dt><dd class="mt-1 font-600">63 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Guests</dt><dd class="mt-1 font-600">12</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Cabins</dt><dd class="mt-1 font-600">6</dd></div>
+            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Aurelia</h3><p class="font-display text-xl font-600 text-gold">$32.5M</p></div>
+            <p class="mt-1 text-sm text-sand/50">2021 · Benetti · Italy</p>
+            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">63 m</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">12</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">6</dd></div>
             </dl>
-            <a href="#contact" class="mt-6 block cursor-pointer rounded-full border border-stone900 py-3 text-center text-sm font-600 transition-colors duration-200 hover:bg-stone900 hover:text-sand">Enquire</a>
+            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
           </div>
         </article>
 
-        <!-- Card -->
-        <article class="reveal group overflow-hidden rounded-2xl border border-stone700/15 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl">
-          <div class="relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1599582909646-1c0e3a5b4d4b?auto=format&fit=crop&w=900&q=80" alt="Luxury sailing yacht with tall masts under a clear sky" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900" style="transition-delay:.1s">
+          <div class="sheen relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1599582909646-1c0e3a5b4d4b?auto=format&fit=crop&w=900&q=80" alt="Luxury sailing yacht with tall masts under a clear sky" loading="lazy" class="card-img h-full w-full object-cover" />
             <span class="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 text-xs font-500 uppercase tracking-widest text-gold backdrop-blur">For Sale</span>
           </div>
           <div class="p-6">
-            <div class="flex items-baseline justify-between">
-              <h3 class="font-display text-2xl font-600">Sirocco</h3>
-              <p class="font-display text-xl font-600 text-gold">$18.9M</p>
-            </div>
-            <p class="mt-1 text-sm text-stone600">2019 · Perini Navi · Sailing</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-stone700/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Length</dt><dd class="mt-1 font-600">47 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Guests</dt><dd class="mt-1 font-600">10</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Cabins</dt><dd class="mt-1 font-600">5</dd></div>
+            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Sirocco</h3><p class="font-display text-xl font-600 text-gold">$18.9M</p></div>
+            <p class="mt-1 text-sm text-sand/50">2019 · Perini Navi · Sailing</p>
+            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">47 m</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">10</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">5</dd></div>
             </dl>
-            <a href="#contact" class="mt-6 block cursor-pointer rounded-full border border-stone900 py-3 text-center text-sm font-600 transition-colors duration-200 hover:bg-stone900 hover:text-sand">Enquire</a>
+            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
           </div>
         </article>
 
-        <!-- Card -->
-        <article class="reveal group overflow-hidden rounded-2xl border border-stone700/15 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl">
-          <div class="relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=900&q=80" alt="Expansive superyacht deck with sun loungers overlooking the sea" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900" style="transition-delay:.2s">
+          <div class="sheen relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=900&q=80" alt="Expansive superyacht deck with sun loungers overlooking the sea" loading="lazy" class="card-img h-full w-full object-cover" />
             <span class="absolute left-4 top-4 rounded-full bg-gold px-3 py-1 text-xs font-600 uppercase tracking-widest text-ink backdrop-blur">New Build</span>
           </div>
           <div class="p-6">
-            <div class="flex items-baseline justify-between">
-              <h3 class="font-display text-2xl font-600">Meridian</h3>
-              <p class="font-display text-xl font-600 text-gold">$54.0M</p>
-            </div>
-            <p class="mt-1 text-sm text-stone600">2024 · Lürssen · Germany</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-stone700/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Length</dt><dd class="mt-1 font-600">78 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Guests</dt><dd class="mt-1 font-600">14</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-stone600">Cabins</dt><dd class="mt-1 font-600">7</dd></div>
+            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Meridian</h3><p class="font-display text-xl font-600 text-gold">$54.0M</p></div>
+            <p class="mt-1 text-sm text-sand/50">2024 · Lürssen · Germany</p>
+            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">78 m</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">14</dd></div>
+              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">7</dd></div>
             </dl>
-            <a href="#contact" class="mt-6 block cursor-pointer rounded-full border border-stone900 py-3 text-center text-sm font-600 transition-colors duration-200 hover:bg-stone900 hover:text-sand">Enquire</a>
+            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
           </div>
         </article>
 
@@ -229,38 +267,33 @@
     </section>
 
     <!-- ============ SERVICES ============ -->
-    <section id="services" class="bg-stone900 text-sand">
+    <section id="services" class="gradient-shift text-sand">
       <div class="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div class="reveal mx-auto mb-16 max-w-2xl text-center">
-          <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">What We Do</p>
-          <h2 class="font-display text-4xl font-500 md:text-5xl">An Owner's Full Journey</h2>
-          <p class="mt-4 text-sand/70">From first acquisition to final sale, every detail handled with the discretion the moment deserves.</p>
+        <div class="mx-auto mb-16 max-w-2xl text-center">
+          <p class="reveal mb-3 text-xs font-500 uppercase tracking-luxe text-gold">What We Do</p>
+          <h2 class="reveal font-display text-4xl font-500 md:text-5xl" style="transition-delay:.06s">An Owner's Full Journey</h2>
+          <p class="reveal mt-4 text-sand/60" style="transition-delay:.12s">From first acquisition to final sale, every detail handled with the discretion the moment deserves.</p>
         </div>
-
         <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 md:grid-cols-2 lg:grid-cols-4">
-          <!-- Service -->
-          <div class="reveal group bg-stone900 p-8 transition-colors duration-300 hover:bg-white/5">
-            <svg class="h-9 w-9 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3M12 4v15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5">
+            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3M12 4v15" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <h3 class="mt-5 font-display text-2xl font-600">Sales &amp; Brokerage</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/70">Confidential representation for buyers and sellers, backed by deep market intelligence and a global buyer network.</p>
+            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Confidential representation for buyers and sellers, backed by deep market intelligence and a global buyer network.</p>
           </div>
-          <!-- Service -->
-          <div class="reveal group bg-stone900 p-8 transition-colors duration-300 hover:bg-white/5">
-            <svg class="h-9 w-9 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.08s">
+            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg>
             <h3 class="mt-5 font-display text-2xl font-600">Charter</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/70">Curated charter experiences across the Mediterranean, Caribbean, and beyond — itineraries designed around you.</p>
+            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Curated charter experiences across the Mediterranean, Caribbean, and beyond — itineraries designed around you.</p>
           </div>
-          <!-- Service -->
-          <div class="reveal group bg-stone900 p-8 transition-colors duration-300 hover:bg-white/5">
-            <svg class="h-9 w-9 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.16s">
+            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <h3 class="mt-5 font-display text-2xl font-600">Management</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/70">Crew, maintenance, compliance, and accounting — comprehensive stewardship so ownership stays effortless.</p>
+            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Crew, maintenance, compliance, and accounting — comprehensive stewardship so ownership stays effortless.</p>
           </div>
-          <!-- Service -->
-          <div class="reveal group bg-stone900 p-8 transition-colors duration-300 hover:bg-white/5">
-            <svg class="h-9 w-9 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 20h16M6 20V9l6-4 6 4v11M10 20v-5h4v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.24s">
+            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 20h16M6 20V9l6-4 6 4v11M10 20v-5h4v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <h3 class="mt-5 font-display text-2xl font-600">New Construction</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/70">Guidance from concept to launch with the world's premier shipyards, protecting your vision and your investment.</p>
+            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Guidance from concept to launch with the world's premier shipyards, protecting your vision and your investment.</p>
           </div>
         </div>
       </div>
@@ -269,76 +302,54 @@
     <!-- ============ ABOUT ============ -->
     <section id="about" class="mx-auto max-w-7xl px-6 py-24 md:py-32">
       <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <div class="reveal relative">
+        <div class="reveal from-left relative">
           <img src="https://images.unsplash.com/photo-1542902093-d55926049754?auto=format&fit=crop&w=1000&q=80" alt="A yacht broker and clients reviewing plans on a sunlit deck" loading="lazy" class="aspect-[4/5] w-full rounded-2xl object-cover" />
-          <div class="absolute -bottom-6 -right-6 hidden rounded-2xl bg-gold p-8 text-ink shadow-xl sm:block">
+          <div class="float-slow absolute -bottom-6 -right-6 hidden rounded-2xl bg-gold p-8 text-ink shadow-2xl sm:block">
             <p class="font-display text-4xl font-700">98%</p>
             <p class="mt-1 max-w-[8rem] text-xs uppercase tracking-widest">Client referral rate</p>
           </div>
         </div>
-
-        <div class="reveal">
+        <div class="reveal from-right">
           <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Our Standard</p>
-          <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">Quiet Expertise, <span class="italic text-gold">Uncompromising</span> Results</h2>
-          <p class="mt-6 leading-relaxed text-stone700">For nearly three decades, Luxury Yachts has represented the most discerning owners in the industry. We are not a marketplace — we are a trusted advisor, present at every signing, sea trial, and handover.</p>
+          <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">Quiet Expertise, <span class="italic shimmer">Uncompromising</span> Results</h2>
+          <p class="mt-6 leading-relaxed text-sand/65">For nearly three decades, Luxury Yachts has represented the most discerning owners in the industry. We are not a marketplace — we are a trusted advisor, present at every signing, sea trial, and handover.</p>
           <ul class="mt-8 space-y-4">
-            <li class="flex gap-4">
-              <svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="text-stone700"><strong class="font-600 text-ink">Absolute discretion.</strong> Every transaction is private by default and protected by ironclad confidentiality.</span>
-            </li>
-            <li class="flex gap-4">
-              <svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="text-stone700"><strong class="font-600 text-ink">Dedicated brokers.</strong> One advisor, end to end — no handoffs, no call centres.</span>
-            </li>
-            <li class="flex gap-4">
-              <svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="text-stone700"><strong class="font-600 text-ink">Global reach.</strong> Offices in 14 ports across the Mediterranean, Americas, and Asia-Pacific.</span>
-            </li>
+            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Absolute discretion.</strong> Every transaction is private by default and protected by ironclad confidentiality.</span></li>
+            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Dedicated brokers.</strong> One advisor, end to end — no handoffs, no call centres.</span></li>
+            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Global reach.</strong> Offices in 14 ports across the Mediterranean, Americas, and Asia-Pacific.</span></li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- ============ TESTIMONIALS ============ -->
-    <section id="testimonials" class="bg-sand">
-      <div class="mx-auto max-w-7xl px-6 pb-24 md:pb-32">
-        <div class="reveal mx-auto mb-14 max-w-2xl text-center">
-          <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">In Their Words</p>
-          <h2 class="font-display text-4xl font-500 md:text-5xl">Trusted by Owners Worldwide</h2>
+    <section id="testimonials" class="gradient-shift">
+      <div class="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div class="mx-auto mb-14 max-w-2xl text-center">
+          <p class="reveal mb-3 text-xs font-500 uppercase tracking-luxe text-gold">In Their Words</p>
+          <h2 class="reveal font-display text-4xl font-500 md:text-5xl" style="transition-delay:.06s">Trusted by Owners Worldwide</h2>
         </div>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <figure class="reveal rounded-2xl border border-stone700/15 bg-white p-8 shadow-sm">
+          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8">
             <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
             </div>
             <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"They sold our Benetti in six weeks at full asking. The process was seamless and entirely confidential."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">A. Castellano</span><span class="block text-stone600">Owner, M/Y Aurelia</span></figcaption>
+            <figcaption class="mt-6 text-sm"><span class="font-600">A. Castellano</span><span class="block text-sand/50">Owner, M/Y Aurelia</span></figcaption>
           </figure>
-          <figure class="reveal rounded-2xl border border-stone700/15 bg-white p-8 shadow-sm">
+          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8" style="transition-delay:.1s">
             <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
             </div>
             <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"Our broker understood exactly what we wanted before we did. The new build came in on time and beyond expectation."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">R. &amp; M. Lindqvist</span><span class="block text-stone600">Owners, M/Y Meridian</span></figcaption>
+            <figcaption class="mt-6 text-sm"><span class="font-600">R. &amp; M. Lindqvist</span><span class="block text-sand/50">Owners, M/Y Meridian</span></figcaption>
           </figure>
-          <figure class="reveal rounded-2xl border border-stone700/15 bg-white p-8 shadow-sm">
+          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8" style="transition-delay:.2s">
             <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
             </div>
             <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"Truly white-glove. From sea trial to handover, every promise was kept. We would not work with anyone else."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">H. Nakamura</span><span class="block text-stone600">Owner, S/Y Sirocco</span></figcaption>
+            <figcaption class="mt-6 text-sm"><span class="font-600">H. Nakamura</span><span class="block text-sand/50">Owner, S/Y Sirocco</span></figcaption>
           </figure>
         </div>
       </div>
@@ -346,52 +357,28 @@
 
     <!-- ============ CONTACT ============ -->
     <section id="contact" class="relative overflow-hidden bg-ink text-sand">
-      <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1800&q=80" alt="" aria-hidden="true" class="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" />
-      <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/60"></div>
-
+      <div class="aurora" aria-hidden="true"><span class="a2"></span><span class="a3"></span></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/70"></div>
       <div class="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 py-24 md:py-32 lg:grid-cols-2">
-        <div class="reveal">
+        <div class="reveal from-left">
           <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Begin the Conversation</p>
           <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">Speak With a Broker</h2>
-          <p class="mt-5 max-w-md leading-relaxed text-sand/75">Tell us what you are looking for, and a dedicated advisor will respond within one business day — discreetly, and without obligation.</p>
-
+          <p class="mt-5 max-w-md leading-relaxed text-sand/70">Tell us what you are looking for, and a dedicated advisor will respond within one business day — discreetly, and without obligation.</p>
           <div class="mt-10 space-y-5 text-sm">
             <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 5h18v14H3zM3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg> brokers@luxuryyachts.example</p>
             <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.5c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> +377 99 00 12 34</p>
             <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg> Quai Antoine 1er, Monaco</p>
           </div>
         </div>
-
-        <form id="enquiry" class="reveal rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm md:p-9" novalidate>
+        <form id="enquiry" class="reveal from-right rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur-md md:p-9" novalidate>
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div>
-              <label for="firstName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">First name</label>
-              <input id="firstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Jean" />
-            </div>
-            <div>
-              <label for="lastName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Last name</label>
-              <input id="lastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Dupont" />
-            </div>
+            <div><label for="firstName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">First name</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Jean" /></div>
+            <div><label for="lastName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Last name</label><input id="lastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Dupont" /></div>
           </div>
-          <div class="mt-5">
-            <label for="email" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="you@example.com" />
-          </div>
-          <div class="mt-5">
-            <label for="interest" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">I am interested in</label>
-            <select id="interest" name="interest" class="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand transition-colors focus:border-gold focus:outline-none">
-              <option class="text-ink">Buying a yacht</option>
-              <option class="text-ink">Selling my yacht</option>
-              <option class="text-ink">Chartering</option>
-              <option class="text-ink">New construction</option>
-              <option class="text-ink">Management</option>
-            </select>
-          </div>
-          <div class="mt-5">
-            <label for="message" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Message</label>
-            <textarea id="message" name="message" rows="4" class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Tell us about the vessel or experience you have in mind…"></textarea>
-          </div>
-          <button type="submit" class="mt-7 w-full cursor-pointer rounded-full bg-gold py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight">Send Enquiry</button>
+          <div class="mt-5"><label for="email" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Email</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="you@example.com" /></div>
+          <div class="mt-5"><label for="interest" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">I am interested in</label><select id="interest" name="interest" class="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand transition-colors focus:border-gold focus:outline-none"><option class="text-ink">Buying a yacht</option><option class="text-ink">Selling my yacht</option><option class="text-ink">Chartering</option><option class="text-ink">New construction</option><option class="text-ink">Management</option></select></div>
+          <div class="mt-5"><label for="message" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Message</label><textarea id="message" name="message" rows="4" class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Tell us about the vessel or experience you have in mind…"></textarea></div>
+          <button type="submit" class="btn-sheen mt-7 w-full cursor-pointer rounded-full bg-gold py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight">Send Enquiry</button>
           <p id="formNote" class="mt-4 hidden text-center text-sm text-gold" role="status"></p>
         </form>
       </div>
@@ -408,10 +395,10 @@
           <span class="font-display text-2xl font-600">Luxury <span class="text-gold">Yachts</span></span>
         </a>
         <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
-          <li><a class="transition-colors hover:text-gold" href="#fleet">Fleet</a></li>
-          <li><a class="transition-colors hover:text-gold" href="#services">Services</a></li>
-          <li><a class="transition-colors hover:text-gold" href="#about">About</a></li>
-          <li><a class="transition-colors hover:text-gold" href="#contact">Contact</a></li>
+          <li><a class="nav-link transition-colors hover:text-gold" href="#fleet">Fleet</a></li>
+          <li><a class="nav-link transition-colors hover:text-gold" href="#services">Services</a></li>
+          <li><a class="nav-link transition-colors hover:text-gold" href="#about">About</a></li>
+          <li><a class="nav-link transition-colors hover:text-gold" href="#contact">Contact</a></li>
         </ul>
       </div>
       <div class="flex flex-col items-center justify-between gap-4 pt-8 text-xs md:flex-row">
@@ -422,6 +409,8 @@
   </footer>
 
   <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // Mobile menu
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -429,46 +418,113 @@
       const open = mobileMenu.classList.toggle('hidden') === false;
       menuBtn.setAttribute('aria-expanded', String(open));
     });
-    mobileMenu.querySelectorAll('a').forEach(a =>
-      a.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      })
-    );
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false');
+    }));
 
-    // Navbar solidify on scroll
+    // Navbar + scroll progress
     const nav = document.querySelector('#nav nav');
+    const progress = document.getElementById('progress');
     const onScroll = () => {
-      if (window.scrollY > 40) {
-        nav.classList.add('bg-ink/85', 'shadow-lg');
-        nav.classList.remove('bg-ink/40');
-      } else {
-        nav.classList.add('bg-ink/40');
-        nav.classList.remove('bg-ink/85', 'shadow-lg');
-      }
+      const y = window.scrollY;
+      if (y > 40) { nav.classList.add('bg-ink/80','shadow-lg'); nav.classList.remove('bg-ink/30'); }
+      else { nav.classList.add('bg-ink/30'); nav.classList.remove('bg-ink/80','shadow-lg'); }
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Reveal on scroll
+    // Scroll reveal
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Contact form (demo — no backend)
+    // Count-up stats
+    const fmt = (v, el) => (el.dataset.prefix || '') + (Number.isInteger(v) ? v : v.toFixed(1)) + (el.dataset.suffix || '');
+    const countUp = (el) => {
+      const target = parseFloat(el.dataset.count); const dur = 1400; const start = performance.now();
+      const step = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * eased, el);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(target, el);
+      };
+      requestAnimationFrame(step);
+    };
+    const statIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { if (reduceMotion) e.target.textContent = fmt(parseFloat(e.target.dataset.count), e.target); else countUp(e.target); statIo.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => statIo.observe(el));
+
+    // Contact form (demo)
     const form = document.getElementById('enquiry');
     const note = document.getElementById('formNote');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
       note.textContent = 'Thank you — a broker will contact you within one business day.';
-      note.classList.remove('hidden');
-      form.reset();
+      note.classList.remove('hidden'); form.reset();
     });
 
-    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- Hero particle field ----------
+    (function particles() {
+      if (reduceMotion) return;
+      const canvas = document.getElementById('particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, dots, raf;
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const COUNT = () => Math.min(90, Math.floor(window.innerWidth / 16));
+
+      function resize() {
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = w * DPR; canvas.height = h * DPR;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      function make() {
+        dots = Array.from({ length: COUNT() }, () => ({
+          x: Math.random() * w, y: Math.random() * h,
+          r: Math.random() * 1.8 + 0.4,
+          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+          a: Math.random() * 0.5 + 0.2,
+        }));
+      }
+      function tick() {
+        ctx.clearRect(0, 0, w, h);
+        for (const d of dots) {
+          d.x += d.vx; d.y += d.vy;
+          if (d.x < 0 || d.x > w) d.vx *= -1;
+          if (d.y < 0 || d.y > h) d.vy *= -1;
+          ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(227,179,65,${d.a})`; ctx.fill();
+        }
+        // link nearby dots
+        for (let i = 0; i < dots.length; i++) {
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
+            const dist = dx * dx + dy * dy;
+            if (dist < 9000) {
+              ctx.beginPath(); ctx.moveTo(dots[i].x, dots[i].y); ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(202,138,4,${0.12 * (1 - dist / 9000)})`; ctx.lineWidth = 0.6; ctx.stroke();
+            }
+          }
+        }
+        raf = requestAnimationFrame(tick);
+      }
+      function startStop() {
+        const hero = document.getElementById('top');
+        const onScreen = hero.getBoundingClientRect().bottom > 0;
+        if (onScreen && !raf) raf = requestAnimationFrame(tick);
+        else if (!onScreen && raf) { cancelAnimationFrame(raf); raf = null; }
+      }
+      resize(); make(); raf = requestAnimationFrame(tick);
+      window.addEventListener('resize', () => { resize(); make(); });
+      window.addEventListener('scroll', startStop, { passive: true });
+    })();
   </script>
 </body>
 </html>
