@@ -428,46 +428,146 @@
 </head>
 <body>
 
-<!-- Reusable product illustrations -->
+<!-- Reusable premium product illustrations -->
 <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
-  <linearGradient id="g-screen" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#9db4ff"/><stop offset="1" stop-color="#3f63d6"/>
+  <linearGradient id="pg-steel" x1="0" y1="0" x2="0.4" y2="1">
+    <stop offset="0" stop-color="#d6deee"/><stop offset="0.5" stop-color="#7c8aa8"/><stop offset="1" stop-color="#3a445a"/>
   </linearGradient>
-  <linearGradient id="g-metal" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#2a3344"/><stop offset="1" stop-color="#161b29"/>
+  <linearGradient id="pg-steel-h" x1="0" y1="0" x2="1" y2="0.2">
+    <stop offset="0" stop-color="#9aa7c2"/><stop offset="0.5" stop-color="#e8eefb"/><stop offset="1" stop-color="#5f6a85"/>
   </linearGradient>
+  <radialGradient id="pg-wall" cx="0.5" cy="0.3" r="0.95">
+    <stop offset="0" stop-color="#84a6ff"/><stop offset="0.5" stop-color="#3450b0"/><stop offset="1" stop-color="#0f1738"/>
+  </radialGradient>
+  <radialGradient id="pg-wall2" cx="0.4" cy="0.28" r="1">
+    <stop offset="0" stop-color="#6ee0d0"/><stop offset="0.5" stop-color="#3a64c0"/><stop offset="1" stop-color="#121a40"/>
+  </radialGradient>
+  <linearGradient id="pg-dark" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1b2234"/><stop offset="1" stop-color="#080b14"/>
+  </linearGradient>
+  <linearGradient id="pg-reflect" x1="0" y1="0" x2="0.8" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="0.38" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="pg-fabric" cx="0.36" cy="0.26" r="0.95">
+    <stop offset="0" stop-color="#bcc4d6"/><stop offset="0.55" stop-color="#646e84"/><stop offset="1" stop-color="#363d4e"/>
+  </radialGradient>
+  <radialGradient id="pg-touch" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#86f0ff" stop-opacity="0.9"/><stop offset="0.6" stop-color="#3aa0ff" stop-opacity="0.35"/><stop offset="1" stop-color="#3aa0ff" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="pg-keys" width="11.4" height="9.4" patternUnits="userSpaceOnUse">
+    <rect x="1" y="1" width="9.2" height="7.2" rx="1.6" fill="#454f64"/>
+    <rect x="1" y="1" width="9.2" height="3.2" rx="1.6" fill="#525d74"/>
+  </pattern>
+  <filter id="pg-shadow" x="-35%" y="-35%" width="170%" height="170%">
+    <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#000000" flood-opacity="0.5"/>
+  </filter>
 
-  <symbol id="ic-phone" viewBox="0 0 200 200">
-    <rect x="62" y="20" width="76" height="160" rx="20" fill="url(#g-metal)" stroke="#516283" stroke-width="1.5"/>
-    <rect x="70" y="28" width="60" height="144" rx="14" fill="url(#g-screen)" opacity="0.92"/>
-    <rect x="88" y="33" width="24" height="6" rx="3" fill="#0c1018"/>
-    <circle cx="100" cy="150" r="8" fill="#0c1018" opacity="0.35"/>
-  </symbol>
-
-  <symbol id="ic-laptop" viewBox="0 0 200 200">
-    <rect x="46" y="48" width="108" height="74" rx="8" fill="url(#g-metal)" stroke="#516283" stroke-width="1.5"/>
-    <rect x="53" y="55" width="94" height="60" rx="4" fill="url(#g-screen)" opacity="0.92"/>
-    <path d="M30 126 H170 L182 150 Q183 156 176 156 H24 Q17 156 18 150 Z" fill="url(#g-metal)" stroke="#516283" stroke-width="1.5"/>
-    <rect x="86" y="129" width="28" height="5" rx="2.5" fill="#0c1018" opacity="0.5"/>
-  </symbol>
-
-  <symbol id="ic-buds" viewBox="0 0 200 200">
-    <rect x="58" y="74" width="84" height="62" rx="20" fill="url(#g-metal)" stroke="#516283" stroke-width="1.5"/>
-    <path d="M58 100 H142" stroke="#46557a" stroke-width="1.5"/>
-    <g fill="#eef2ff">
-      <path d="M80 64 q-6 0 -6 8 v16 q0 6 6 6 q6 0 6 -6 v-10 q10 -2 10 -12 q0 -8 -10 -8 z"/>
-      <path d="M120 64 q6 0 6 8 v16 q0 6 -6 6 q-6 0 -6 -6 v-10 q-10 -2 -10 -12 q0 -8 10 -8 z"/>
+  <!-- iPhone with home-screen UI -->
+  <symbol id="pi-phone" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <rect x="76" y="13" width="88" height="214" rx="28" fill="url(#pg-steel)"/>
+      <rect x="80" y="17" width="80" height="206" rx="24" fill="#04060d"/>
+      <rect x="83" y="20" width="74" height="200" rx="21" fill="url(#pg-wall)"/>
+      <rect x="105" y="27" width="30" height="10" rx="5" fill="#04060c"/>
+      <circle cx="129" cy="32" r="2" fill="#1b2a48"/>
+      <text x="120" y="80" text-anchor="middle" font-family="Sora, sans-serif" font-size="29" font-weight="600" fill="#ffffff" opacity="0.96">9:41</text>
+      <g>
+        <rect x="88" y="96" width="14" height="14" rx="3.6" fill="#ff6b6b"/><rect x="105" y="96" width="14" height="14" rx="3.6" fill="#4dd4ac"/><rect x="122" y="96" width="14" height="14" rx="3.6" fill="#ffd166"/><rect x="139" y="96" width="14" height="14" rx="3.6" fill="#5b8cff"/>
+        <rect x="88" y="118" width="14" height="14" rx="3.6" fill="#c77dff"/><rect x="105" y="118" width="14" height="14" rx="3.6" fill="#ff9e6b"/><rect x="122" y="118" width="14" height="14" rx="3.6" fill="#4dc9ff"/><rect x="139" y="118" width="14" height="14" rx="3.6" fill="#f783ac"/>
+        <rect x="88" y="140" width="14" height="14" rx="3.6" fill="#74c0fc"/><rect x="105" y="140" width="14" height="14" rx="3.6" fill="#8ce99a"/><rect x="122" y="140" width="14" height="14" rx="3.6" fill="#ffa94d"/><rect x="139" y="140" width="14" height="14" rx="3.6" fill="#b197fc"/>
+      </g>
+      <rect x="86" y="186" width="68" height="22" rx="11" fill="#ffffff" opacity="0.13"/>
+      <rect x="90" y="190" width="14" height="14" rx="3.6" fill="#5b8cff"/><rect x="106" y="190" width="14" height="14" rx="3.6" fill="#4dd4ac"/><rect x="122" y="190" width="14" height="14" rx="3.6" fill="#ff6b6b"/><rect x="138" y="190" width="14" height="14" rx="3.6" fill="#ffd43b"/>
+      <rect x="108" y="213" width="24" height="3.4" rx="1.7" fill="#ffffff" opacity="0.7"/>
+      <rect x="83" y="20" width="74" height="200" rx="21" fill="url(#pg-reflect)" opacity="0.45"/>
     </g>
-    <rect x="96" y="122" width="8" height="4" rx="2" fill="url(#g-screen)"/>
   </symbol>
 
-  <symbol id="ic-watch" viewBox="0 0 200 200">
-    <rect x="74" y="18" width="52" height="26" rx="10" fill="url(#g-metal)"/>
-    <rect x="74" y="156" width="52" height="26" rx="10" fill="url(#g-metal)"/>
-    <rect x="58" y="54" width="84" height="92" rx="24" fill="url(#g-metal)" stroke="#516283" stroke-width="1.5"/>
-    <rect x="68" y="64" width="64" height="72" rx="18" fill="url(#g-screen)" opacity="0.92"/>
-    <circle cx="100" cy="100" r="20" fill="none" stroke="#0c1018" stroke-width="5" opacity="0.4"/>
-    <path d="M100 100 V86" stroke="#0c1018" stroke-width="3" opacity="0.6" stroke-linecap="round"/>
+  <!-- MacBook, open, with keyboard detail -->
+  <symbol id="pi-laptop" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <rect x="46" y="34" width="148" height="100" rx="9" fill="url(#pg-steel)"/>
+      <rect x="51" y="39" width="138" height="90" rx="5" fill="#04060d"/>
+      <rect x="54" y="42" width="132" height="84" rx="3" fill="url(#pg-wall2)"/>
+      <rect x="54" y="42" width="132" height="9" fill="#0c1430" opacity="0.85"/>
+      <rect x="88" y="112" width="64" height="9" rx="4.5" fill="#ffffff" opacity="0.16"/>
+      <rect x="92" y="114" width="9" height="5" rx="1.5" fill="#5b8cff"/><rect x="104" y="114" width="9" height="5" rx="1.5" fill="#4dd4ac"/><rect x="116" y="114" width="9" height="5" rx="1.5" fill="#ff9e6b"/><rect x="128" y="114" width="9" height="5" rx="1.5" fill="#c77dff"/><rect x="140" y="114" width="9" height="5" rx="1.5" fill="#ffd43b"/>
+      <rect x="54" y="42" width="132" height="84" rx="3" fill="url(#pg-reflect)" opacity="0.4"/>
+      <path d="M30 134 H210 L224 162 Q227 170 217 170 H23 Q13 170 16 162 Z" fill="url(#pg-steel-h)"/>
+      <rect x="64" y="138" width="112" height="22" rx="3" fill="#242b3a"/>
+      <rect x="66" y="140" width="108" height="18" fill="url(#pg-keys)"/>
+      <rect x="100" y="153" width="40" height="4" rx="1.5" fill="#525d74"/>
+      <rect x="104" y="163" width="32" height="3.4" rx="1.7" fill="#5b6478"/>
+    </g>
+  </symbol>
+
+  <!-- AirPods in open charging case -->
+  <symbol id="pi-airpods" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <rect x="74" y="96" width="92" height="86" rx="22" fill="url(#pg-steel)"/>
+      <rect x="80" y="102" width="80" height="74" rx="17" fill="url(#pg-dark)"/>
+      <path d="M70 96 q50 -16 100 0 v6 q-50 -15 -100 0 z" fill="url(#pg-steel-h)"/>
+      <circle cx="120" cy="166" r="3.4" fill="#4dc9ff"/>
+      <g fill="#f2f5ff">
+        <path d="M104 70 q-7 0 -7 9 v34 q0 7 7 7 q7 0 7 -7 v-22 q11 -2 11 -13 q0 -10 -11 -10 z"/>
+        <path d="M136 70 q7 0 7 9 v34 q0 7 -7 7 q-7 0 -7 -7 v-22 q-11 -2 -11 -13 q0 -10 11 -10 z"/>
+      </g>
+      <path d="M104 78 q-3 0 -3 4 v26" stroke="#c2ccde" stroke-width="2" fill="none" opacity="0.6"/>
+      <rect x="74" y="96" width="92" height="86" rx="22" fill="url(#pg-reflect)" opacity="0.4"/>
+    </g>
+  </symbol>
+
+  <!-- Apple Watch with watch face -->
+  <symbol id="pi-watch" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <path d="M96 36 q4 -14 24 -14 q20 0 24 14 l3 18 h-54 z" fill="url(#pg-steel-h)"/>
+      <path d="M96 204 q4 14 24 14 q20 0 24 -14 l3 -18 h-54 z" fill="url(#pg-steel-h)"/>
+      <rect x="68" y="50" width="104" height="140" rx="34" fill="url(#pg-steel)"/>
+      <rect x="74" y="56" width="92" height="128" rx="28" fill="#05070e"/>
+      <rect x="78" y="60" width="84" height="120" rx="24" fill="url(#pg-wall)"/>
+      <circle cx="120" cy="120" r="30" fill="none" stroke="#ff4d6d" stroke-width="6" opacity="0.92" stroke-linecap="round" stroke-dasharray="150 40" transform="rotate(-90 120 120)"/>
+      <circle cx="120" cy="120" r="22" fill="none" stroke="#a6ff4d" stroke-width="6" opacity="0.92" stroke-linecap="round" stroke-dasharray="118 30" transform="rotate(-90 120 120)"/>
+      <circle cx="120" cy="120" r="14" fill="none" stroke="#4dd4ff" stroke-width="6" opacity="0.92" stroke-linecap="round" stroke-dasharray="70 22" transform="rotate(-90 120 120)"/>
+      <text x="120" y="80" text-anchor="middle" font-family="Sora, sans-serif" font-size="15" font-weight="600" fill="#ffffff" opacity="0.92">9:41</text>
+      <rect x="170" y="92" width="7" height="20" rx="3.5" fill="#cdd6e8"/>
+      <circle cx="176" cy="84" r="5.5" fill="url(#pg-steel)" stroke="#aab6cf" stroke-width="1"/>
+      <rect x="68" y="50" width="104" height="140" rx="34" fill="url(#pg-reflect)" opacity="0.4"/>
+    </g>
+  </symbol>
+
+  <!-- iPad with slim bezels -->
+  <symbol id="pi-ipad" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <rect x="52" y="20" width="136" height="200" rx="16" fill="url(#pg-steel)"/>
+      <rect x="58" y="26" width="124" height="188" rx="10" fill="#05070e"/>
+      <rect x="61" y="29" width="118" height="182" rx="8" fill="url(#pg-wall)"/>
+      <circle cx="120" cy="33" r="1.8" fill="#1b2a48"/>
+      <rect x="69" y="42" width="46" height="40" rx="9" fill="#ffffff" opacity="0.14"/>
+      <text x="78" y="62" font-family="Sora, sans-serif" font-size="15" font-weight="600" fill="#ffffff" opacity="0.92">72°</text>
+      <rect x="74" y="66" width="20" height="4" rx="2" fill="#ffd166"/>
+      <rect x="125" y="42" width="46" height="40" rx="9" fill="#ffffff" opacity="0.14"/>
+      <rect x="131" y="48" width="34" height="5" rx="2" fill="#ff6b6b"/><rect x="131" y="58" width="26" height="4" rx="2" fill="#ffffff" opacity="0.5"/><rect x="131" y="66" width="30" height="4" rx="2" fill="#ffffff" opacity="0.35"/>
+      <g>
+        <rect x="70" y="96" width="20" height="20" rx="5" fill="#4dd4ac"/><rect x="96" y="96" width="20" height="20" rx="5" fill="#5b8cff"/><rect x="124" y="96" width="20" height="20" rx="5" fill="#ff9e6b"/><rect x="150" y="96" width="20" height="20" rx="5" fill="#c77dff"/>
+        <rect x="70" y="126" width="20" height="20" rx="5" fill="#74c0fc"/><rect x="96" y="126" width="20" height="20" rx="5" fill="#ffd43b"/><rect x="124" y="126" width="20" height="20" rx="5" fill="#f783ac"/><rect x="150" y="126" width="20" height="20" rx="5" fill="#8ce99a"/>
+      </g>
+      <rect x="74" y="180" width="92" height="24" rx="12" fill="#ffffff" opacity="0.13"/>
+      <rect x="82" y="186" width="14" height="14" rx="3.6" fill="#5b8cff"/><rect x="100" y="186" width="14" height="14" rx="3.6" fill="#4dd4ac"/><rect x="118" y="186" width="14" height="14" rx="3.6" fill="#ff6b6b"/><rect x="136" y="186" width="14" height="14" rx="3.6" fill="#ffd43b"/><rect x="150" y="186" width="14" height="14" rx="3.6" fill="#c77dff"/>
+      <rect x="61" y="29" width="118" height="182" rx="8" fill="url(#pg-reflect)" opacity="0.4"/>
+    </g>
+  </symbol>
+
+  <!-- Smart speaker (HomePod) -->
+  <symbol id="pi-speaker" viewBox="0 0 240 240">
+    <g filter="url(#pg-shadow)">
+      <path d="M78 64 q42 -20 84 0 v92 q0 30 -42 30 q-42 0 -42 -30 z" fill="url(#pg-fabric)"/>
+      <ellipse cx="120" cy="64" rx="42" ry="13" fill="#2c3344"/>
+      <ellipse cx="120" cy="62" rx="34" ry="10" fill="url(#pg-touch)"/>
+      <ellipse cx="120" cy="61" rx="6" ry="2" fill="#ffffff" opacity="0.5"/>
+      <path d="M86 70 q34 -14 68 0 v84 q0 22 -34 22 q-34 0 -34 -22 z" fill="#ffffff" opacity="0.05"/>
+      <path d="M84 76 q12 -7 12 80" stroke="#ffffff" stroke-width="6" fill="none" opacity="0.12" stroke-linecap="round"/>
+      <ellipse cx="120" cy="186" rx="42" ry="11" fill="#000000" opacity="0.28"/>
+    </g>
   </symbol>
 </defs></svg>
 
@@ -548,7 +648,7 @@
         <!-- Featured -->
         <article class="card card--featured reveal">
           <span class="card__tag">Flagship phone</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-phone"/></svg></div>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-phone"/></svg></div>
           <h3 class="card__name">NEXUS 15 Pro</h3>
           <p class="card__desc">Titanium. Telephoto. A18 Pro silicon that never breaks a sweat.</p>
           <div class="chips">
@@ -561,41 +661,19 @@
         </article>
 
         <article class="card reveal" style="--d:.06s">
-          <span class="card__tag">Phone</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-phone"/></svg></div>
-          <h3 class="card__name">NEXUS 15</h3>
-          <p class="card__desc">The essentials, perfected for everyone.</p>
-          <div class="card__foot">
-            <span class="price">$899</span>
-            <button class="btn" data-add="NEXUS 15">Add to cart</button>
-          </div>
-        </article>
-
-        <article class="card reveal" style="--d:.12s">
           <span class="card__tag">Laptop</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-laptop"/></svg></div>
-          <h3 class="card__name">NEXUS Book Air</h3>
-          <p class="card__desc">Impossibly thin. Endlessly capable.</p>
-          <div class="card__foot">
-            <span class="price">$1,299</span>
-            <button class="btn" data-add="NEXUS Book Air">Add to cart</button>
-          </div>
-        </article>
-
-        <article class="card reveal" style="--d:.06s">
-          <span class="card__tag">Laptop</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-laptop"/></svg></div>
-          <h3 class="card__name">NEXUS Book Pro 16</h3>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-laptop"/></svg></div>
+          <h3 class="card__name">NEXUS Book Pro</h3>
           <p class="card__desc">Desktop power that fits in your bag.</p>
           <div class="card__foot">
             <span class="price">$2,499</span>
-            <button class="btn" data-add="NEXUS Book Pro 16">Add to cart</button>
+            <button class="btn" data-add="NEXUS Book Pro">Add to cart</button>
           </div>
         </article>
 
         <article class="card reveal" style="--d:.12s">
           <span class="card__tag">Audio</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-buds"/></svg></div>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-airpods"/></svg></div>
           <h3 class="card__name">NEXUS Pods Ultra</h3>
           <p class="card__desc">Silence, on demand. Sound, on another level.</p>
           <div class="card__foot">
@@ -604,14 +682,36 @@
           </div>
         </article>
 
-        <article class="card reveal" style="--d:.18s">
+        <article class="card reveal" style="--d:.06s">
           <span class="card__tag">Watch</span>
-          <div class="card__art"><svg aria-hidden="true"><use href="#ic-watch"/></svg></div>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-watch"/></svg></div>
           <h3 class="card__name">NEXUS Watch S9</h3>
           <p class="card__desc">Your health in focus, all day, every day.</p>
           <div class="card__foot">
             <span class="price">$529</span>
             <button class="btn" data-add="NEXUS Watch S9">Add to cart</button>
+          </div>
+        </article>
+
+        <article class="card reveal" style="--d:.12s">
+          <span class="card__tag">Tablet</span>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-ipad"/></svg></div>
+          <h3 class="card__name">NEXUS Pad Air</h3>
+          <p class="card__desc">A canvas for everything. Impossibly light.</p>
+          <div class="card__foot">
+            <span class="price">$799</span>
+            <button class="btn" data-add="NEXUS Pad Air">Add to cart</button>
+          </div>
+        </article>
+
+        <article class="card reveal" style="--d:.18s">
+          <span class="card__tag">Speaker</span>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-speaker"/></svg></div>
+          <h3 class="card__name">NEXUS Sound</h3>
+          <p class="card__desc">Room-filling, spatial audio that disappears into the decor.</p>
+          <div class="card__foot">
+            <span class="price">$349</span>
+            <button class="btn" data-add="NEXUS Sound">Add to cart</button>
           </div>
         </article>
       </div>
@@ -634,7 +734,7 @@
             </div>
           </div>
           <div class="feature__stage">
-            <svg class="product" viewBox="0 0 200 200" aria-hidden="true"><use href="#ic-phone"/></svg>
+            <svg class="product" viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-phone"/></svg>
             <span class="callout callout--a" data-parallax="0.4">Tetraprism <b>5× zoom</b></span>
             <span class="callout callout--b" data-parallax="-0.5">A18 Pro · <b>+30% GPU</b></span>
             <span class="callout callout--c" data-parallax="0.3">Up to <b>33h</b> video</span>
@@ -791,6 +891,38 @@
   const rim = new THREE.DirectionalLight(0xffb24d, 1.5); rim.position.set(5, -2, -3); scene.add(rim);
   const fill = new THREE.PointLight(0x5b8cff, 0.7, 40); fill.position.set(0, -4, 5); scene.add(fill);
 
+  /* ---- Studio environment map → metallic specular reflections ---- */
+  (function buildEnvironment() {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 256;
+    const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, 256);
+    g.addColorStop(0, '#e8f0ff'); g.addColorStop(0.45, '#3b4d7a'); g.addColorStop(1, '#05070d');
+    x.fillStyle = g; x.fillRect(0, 0, 512, 256);
+    // soft studio highlight bars that read as reflections on metal
+    x.fillStyle = 'rgba(255,255,255,0.92)'; x.fillRect(96, 30, 46, 150);
+    x.fillStyle = 'rgba(150,185,255,0.55)'; x.fillRect(330, 50, 28, 130);
+    x.fillStyle = 'rgba(255,210,140,0.5)'; x.fillRect(430, 70, 20, 110);
+    const tex = new THREE.CanvasTexture(c);
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    try {
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromEquirectangular(tex).texture;
+      pmrem.dispose();
+    } catch (e) { scene.environment = tex; }
+  })();
+
+  /* diagonal glass-sheen texture for the screen */
+  function glassSheenTex() {
+    const c = document.createElement('canvas'); c.width = 128; c.height = 256;
+    const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 128, 256);
+    g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.42, 'rgba(255,255,255,0)');
+    g.addColorStop(0.5, 'rgba(255,255,255,0.5)'); g.addColorStop(0.58, 'rgba(255,255,255,0)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 128, 256);
+    return new THREE.CanvasTexture(c);
+  }
+
   /* ---- Screen texture (emissive UI) ---- */
   function roundRect(ctx, x, y, w, h, r) {
     ctx.beginPath(); ctx.moveTo(x + r, y);
@@ -830,44 +962,92 @@
     return s;
   }
 
-  /* ---- Phone model ---- */
+  /* ---- Phone model (realistic, metallic, env-reflective) ---- */
   const phone = new THREE.Group();
-  const bodyGeo = new THREE.ExtrudeGeometry(roundedRectShape(2.05, 4.15, 0.42), {
-    depth: 0.26, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3, curveSegments: 24
+  const FRONT = 0.165, BACK = -0.165;
+
+  // Chamfered titanium body (rounded rect extrude w/ bevel = rounded corners + chamfered edges)
+  const bodyGeo = new THREE.ExtrudeGeometry(roundedRectShape(2.08, 4.2, 0.46), {
+    depth: 0.30, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 5, curveSegments: 36
   });
   bodyGeo.center();
-  const body = new THREE.Mesh(bodyGeo, new THREE.MeshStandardMaterial({ color: 0x1c2434, metalness: 0.95, roughness: 0.34 }));
+  const titanium = new THREE.MeshStandardMaterial({ color: 0x3b4358, metalness: 1.0, roughness: 0.3, envMapIntensity: 1.25 });
+  const body = new THREE.Mesh(bodyGeo, titanium);
   phone.add(body);
 
+  // Glossy black back glass, slightly inset
+  const backGlass = new THREE.Mesh(
+    new THREE.ShapeGeometry(roundedRectShape(1.92, 4.04, 0.36)),
+    new THREE.MeshStandardMaterial({ color: 0x0e1320, metalness: 0.55, roughness: 0.16, envMapIntensity: 1.1 })
+  );
+  backGlass.position.z = BACK - 0.001; backGlass.rotation.y = Math.PI; phone.add(backGlass);
+
+  // Emissive screen UI
   let screenTex = makeScreen();
   const screen = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.78, 3.78),
-    new THREE.MeshStandardMaterial({ map: screenTex, emissive: 0xffffff, emissiveMap: screenTex, emissiveIntensity: 0.85, roughness: 0.25, metalness: 0 })
+    new THREE.PlaneGeometry(1.88, 3.98),
+    new THREE.MeshStandardMaterial({ map: screenTex, emissive: 0xffffff, emissiveMap: screenTex, emissiveIntensity: 0.9, roughness: 0.22, metalness: 0 })
   );
-  screen.position.z = 0.17; phone.add(screen);
+  screen.position.z = FRONT - 0.004; phone.add(screen);
 
+  // Glass sheen reflection over the screen
+  const sheen = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.88, 3.98),
+    new THREE.MeshBasicMaterial({ map: glassSheenTex(), transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  sheen.position.z = FRONT - 0.002; phone.add(sheen);
+
+  // Dynamic Island — rounded black pill with a camera dot
   const island = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.55, 0.16),
-    new THREE.MeshBasicMaterial({ color: 0x05070d })
+    new THREE.ShapeGeometry(roundedRectShape(0.64, 0.18, 0.09)),
+    new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.35, metalness: 0.2 })
   );
-  island.position.set(0, 1.55, 0.181); phone.add(island);
+  island.position.set(0, 1.6, FRONT); phone.add(island);
+  const camDot = new THREE.Mesh(
+    new THREE.CircleGeometry(0.04, 24),
+    new THREE.MeshStandardMaterial({ color: 0x0a1736, metalness: 0.7, roughness: 0.1, envMapIntensity: 1.4 })
+  );
+  camDot.position.set(0.21, 1.6, FRONT + 0.002); phone.add(camDot);
 
-  // back camera plateau + lenses
-  const plateau = new THREE.Mesh(
-    new THREE.ExtrudeGeometry(roundedRectShape(0.95, 0.95, 0.26), { depth: 0.06, bevelEnabled: false }),
-    new THREE.MeshStandardMaterial({ color: 0x222b3d, metalness: 0.9, roughness: 0.4 })
+  // ---- Rear camera module: rounded plateau + 3 lenses in triangle ----
+  const camPlate = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(roundedRectShape(1.06, 1.06, 0.3), { depth: 0.1, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 }),
+    new THREE.MeshStandardMaterial({ color: 0x2a3242, metalness: 1.0, roughness: 0.34, envMapIntensity: 1.15 })
   );
-  plateau.position.set(-0.42, 1.18, -0.2); plateau.rotation.y = Math.PI; phone.add(plateau);
-  for (let i = 0; i < 3; i++) {
-    const lens = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.16, 0.16, 0.08, 24),
-      new THREE.MeshStandardMaterial({ color: 0x0b1020, metalness: 1, roughness: 0.15 })
+  camPlate.position.set(-0.4, 1.18, BACK - 0.05); camPlate.rotation.y = Math.PI; phone.add(camPlate);
+
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0x171c2b, metalness: 1.0, roughness: 0.3 });
+  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x0a1230, metalness: 0.4, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.6 });
+  const triangle = [[-0.23, 0.23], [0.23, 0.23], [0, -0.23]];
+  triangle.forEach(([lx, ly]) => {
+    const cx = -0.4 + lx, cy = 1.18 + ly;
+    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.22, 0.12, 36), ringMat);
+    ring.rotation.x = Math.PI / 2; ring.position.set(cx, cy, BACK - 0.12); phone.add(ring);
+    const glass = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.07, 36), glassMat);
+    glass.rotation.x = Math.PI / 2; glass.position.set(cx, cy, BACK - 0.16); phone.add(glass);
+    const catch_ = new THREE.Mesh(
+      new THREE.CircleGeometry(0.045, 18),
+      new THREE.MeshBasicMaterial({ color: 0xbfe0ff, transparent: true, opacity: 0.85 })
     );
-    lens.rotation.x = Math.PI / 2;
-    lens.position.set(-0.42 + (i % 2) * 0.36 - 0.18, 1.18 + (i < 2 ? 0.18 : -0.2), -0.26);
-    phone.add(lens);
-  }
-  phone.rotation.set(0.1, -0.5, 0);
+    catch_.position.set(cx - 0.05, cy + 0.05, BACK - 0.2); catch_.rotation.y = Math.PI; phone.add(catch_);
+  });
+  // flash + LiDAR
+  const flash = new THREE.Mesh(
+    new THREE.CircleGeometry(0.07, 22),
+    new THREE.MeshStandardMaterial({ color: 0xfff4d6, emissive: 0xffe7ad, emissiveIntensity: 0.5 })
+  );
+  flash.position.set(-0.13, 1.34, BACK - 0.12); flash.rotation.y = Math.PI; phone.add(flash);
+
+  // ---- Metal side buttons ----
+  const btnMat = new THREE.MeshStandardMaterial({ color: 0x4c5670, metalness: 1.0, roughness: 0.3, envMapIntensity: 1.2 });
+  const power = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.52, 0.16), btnMat);
+  power.position.set(1.07, 0.4, 0); phone.add(power);
+  [[0.55, 0.46], [-0.12, 0.5], [-0.78, 0.34]].forEach(([by, bh]) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(0.07, bh, 0.16), btnMat);
+    b.position.set(-1.07, by, 0); phone.add(b);
+  });
+
+  phone.rotation.set(0.12, -0.5, 0);
   scene.add(phone);
 
   /* ---- Particle dust ---- */
