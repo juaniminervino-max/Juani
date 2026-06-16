@@ -32,6 +32,7 @@
     --primary-ink:    oklch(0.18 0.04 268);
     --violet:         oklch(0.66 0.17 300);
     --accent:         oklch(0.815 0.130 72);
+    --green:          oklch(0.82 0.17 152);
 
     --e-quart: cubic-bezier(0.25, 1, 0.5, 1);
     --e-quint: cubic-bezier(0.22, 1, 0.36, 1);
@@ -123,8 +124,9 @@
   /* ---- Header ---- */
   .header {
     position: fixed; inset: 0 0 auto 0; z-index: var(--z-header);
-    transition: background-color 0.3s var(--e-quart), border-color 0.3s var(--e-quart);
+    transition: background-color 0.3s var(--e-quart), border-color 0.3s var(--e-quart), backdrop-filter 0.3s var(--e-quart);
     border-bottom: 1px solid transparent;
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
   }
   .header.is-stuck {
     background: oklch(0.155 0.022 274 / 0.7);
@@ -216,12 +218,12 @@
   /* headline letter reveal (CSS, works without JS) */
   .story__title .ch { opacity: 1; }
   .js .story__title .ch { opacity: 0; transform: translateY(0.85em); filter: blur(9px);
-    animation: chIn 0.78s var(--e-expo) forwards; animation-delay: calc(var(--i) * 42ms + 0.2s); }
+    animation: chIn 0.78s var(--e-expo) forwards; animation-delay: calc(var(--i) * 42ms + 1.5s); }
   @keyframes chIn { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
   .js .hero__fade { opacity: 0; animation: fadeUp 0.85s var(--e-expo) forwards; }
-  .js .hero__sub { animation-delay: 1s; }
-  .js .hero__cta { animation-delay: 1.18s; }
-  .js .eyebrow { animation-delay: 0.05s; }
+  .js .hero__sub { animation-delay: 2.2s; }
+  .js .hero__cta { animation-delay: 2.35s; }
+  .js .eyebrow { animation-delay: 1.35s; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
   /* ---- Self-drawing rule separator ---- */
@@ -243,10 +245,18 @@
   .section__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); letter-spacing: -0.035em; }
   .section__head p { margin-top: 1rem; color: var(--muted); font-size: clamp(1.05rem, 1.4vw, 1.2rem); max-width: 52ch; }
 
-  /* ---- Products bento ---- */
-  .bento { display: grid; gap: 1.1rem; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; }
-  @media (max-width: 960px) { .bento { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 620px) { .bento { grid-template-columns: 1fr; } }
+  /* ---- Products bento (broken Apple-style grid) ---- */
+  .bento {
+    display: grid; gap: 1.1rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(178px, 1fr);
+    grid-template-areas:
+      "feat feat lap   lap"
+      "feat feat pods  ipad"
+      "watch spkr spkr ipad";
+  }
+  .card--feat { grid-area: feat; } .card--lap { grid-area: lap; } .card--pods { grid-area: pods; }
+  .card--ipad { grid-area: ipad; } .card--watch { grid-area: watch; } .card--spkr { grid-area: spkr; }
 
   .card { position: relative; display: flex; flex-direction: column; padding: clamp(1.4rem, 2.4vw, 1.9rem);
     background: radial-gradient(120% 120% at 80% 0%, oklch(0.27 0.045 274 / 0.55), transparent 55%), var(--surface);
@@ -257,23 +267,56 @@
     opacity: 0; transition: opacity 0.3s var(--e-quart); }
   .card:hover { transform: translateY(-6px); border-color: var(--line-2); box-shadow: 0 26px 54px -28px oklch(0 0 0 / 0.85); }
   .card:hover::before { opacity: 1; }
-  .card--featured { grid-column: span 2; grid-row: span 2; }
-  @media (max-width: 620px) { .card--featured { grid-column: span 1; } }
+
   .card__tag { align-self: flex-start; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-soft);
     padding: 0.28rem 0.7rem; border-radius: 999px; background: oklch(1 0 0 / 0.06); border: 1px solid var(--line); }
-  .card__art { margin: 0.4rem 0 1rem; flex: 1 1 auto; display: grid; place-items: center; min-height: 130px; transition: transform 0.4s var(--e-quint); }
+  .card__art { margin: 0.5rem 0 1rem; flex: 1 1 auto; display: grid; place-items: center; min-height: 118px; transition: transform 0.4s var(--e-quint); }
   .card:hover .card__art { transform: translateY(-4px) scale(1.03); }
-  .card--featured .card__art { min-height: 240px; }
-  .card__art svg { width: 100%; height: 100%; max-height: 220px; filter: drop-shadow(0 18px 30px oklch(0 0 0 / 0.5)); }
-  .card--featured .card__art svg { max-height: 310px; }
-  .card__name { font-family: "Sora", sans-serif; font-weight: 600; font-size: 1.18rem; letter-spacing: -0.02em; }
-  .card--featured .card__name { font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
-  .card__desc { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.96rem; }
+  .card__art svg { width: 100%; height: 100%; max-height: 196px; filter: drop-shadow(0 18px 30px oklch(0 0 0 / 0.5)); }
+  .card__name { font-family: "Sora", sans-serif; font-weight: 600; font-size: 1.16rem; letter-spacing: -0.02em; }
+  .card__desc { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.95rem; }
   .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
   .chips span { font-size: 0.8rem; color: var(--ink-soft); padding: 0.3rem 0.6rem; border-radius: 8px; background: oklch(1 0 0 / 0.05); border: 1px solid var(--line); }
-  .card__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.4rem; }
-  .price { font-family: "Sora", sans-serif; font-weight: 600; font-size: 1.18rem; letter-spacing: -0.01em; }
+  .card__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.4rem; }
+  .price { font-family: "Sora", sans-serif; font-weight: 600; font-size: 1.18rem; letter-spacing: -0.01em;
+    transition: color 0.2s var(--e-quart), text-shadow 0.2s var(--e-quart); }
   .price small { display: block; font-family: "Hanken Grotesk", sans-serif; font-weight: 450; font-size: 0.74rem; color: var(--muted); letter-spacing: 0; }
+  /* subtle green pulse on price hover */
+  .price:hover { animation: pricePulse 1.3s var(--e-quart) infinite; }
+  @keyframes pricePulse { 0%,100% { color: var(--ink); text-shadow: none; } 50% { color: var(--green); text-shadow: 0 0 18px oklch(0.82 0.17 152 / 0.45); } }
+
+  /* hierarchy: featured biggest, portrait taller, landscape side-by-side */
+  .card--feat { padding: clamp(1.7rem, 2.8vw, 2.5rem); }
+  .card--feat .card__name { font-size: clamp(1.7rem, 2.9vw, 2.45rem); }
+  .card--feat .card__desc { font-size: clamp(1rem, 1.3vw, 1.12rem); max-width: 32ch; }
+  .card--feat .card__art { min-height: 210px; }
+  .card--feat .card__art svg { max-height: 300px; }
+
+  .card--tall .card__art { min-height: 236px; }
+  .card--tall .card__art svg { max-height: 280px; }
+  .card--tall .card__name { font-size: 1.32rem; }
+
+  .card--wide { display: grid; grid-template-columns: clamp(118px, 17vw, 205px) 1fr; column-gap: clamp(1rem, 2vw, 1.8rem); align-items: center; }
+  .card--wide .card__art { grid-column: 1; grid-row: 1 / span 5; margin: 0; height: 100%; min-height: 0; }
+  .card--wide .card__art svg { max-height: 144px; }
+  .card--wide > :not(.card__art) { grid-column: 2; }
+  .card--wide .card__name { font-size: clamp(1.3rem, 1.9vw, 1.6rem); }
+  .card--wide .card__foot { margin-top: 1rem; padding-top: 0; }
+
+  @media (max-width: 900px) {
+    .bento { grid-template-columns: 1fr 1fr; grid-template-areas: none; grid-auto-rows: auto; }
+    .card--feat, .card--lap, .card--spkr { grid-area: auto; grid-column: span 2; }
+    .card--pods, .card--watch, .card--ipad { grid-area: auto; grid-column: span 1; }
+    .card--wide { grid-template-columns: clamp(140px, 28vw, 230px) 1fr; }
+  }
+  @media (max-width: 560px) {
+    .bento { grid-template-columns: 1fr; }
+    .card--feat, .card--lap, .card--spkr, .card--pods, .card--watch, .card--ipad { grid-column: span 1; }
+    .card--wide { display: flex; flex-direction: column; }
+    .card--wide .card__art { height: auto; min-height: 118px; margin: 0.5rem 0 1rem; }
+    .card--wide .card__art svg { max-height: 196px; }
+    .card--wide .card__foot { margin-top: auto; padding-top: 1.4rem; }
+  }
 
   /* ============================================================
      Full-screen showcase — NEXUS 15 Pro
@@ -368,6 +411,45 @@
   .toast .check { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: var(--accent); color: var(--primary-ink); flex: none; }
   .toast .check svg { width: 13px; height: 13px; }
 
+  /* ---- Cinematic intro curtain (black → logo → hero) ---- */
+  .intro { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: #05060c;
+    animation: introOut 0.6s var(--e-expo) 1.45s forwards; }
+  .intro__logo { display: inline-flex; align-items: center; gap: 0.7rem; font-family: "Sora", sans-serif; font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -0.03em; color: var(--ink);
+    opacity: 0; animation: introLogo 1.15s var(--e-expo) 0.12s forwards; }
+  .intro__logo svg { width: 1em; height: 1em; color: var(--primary-bright); }
+  @keyframes introLogo {
+    0% { opacity: 0; transform: translateY(14px) scale(0.94); filter: blur(10px); }
+    55% { opacity: 1; transform: none; filter: blur(0); }
+    100% { opacity: 1; transform: none; filter: blur(0); }
+  }
+  @keyframes introOut { to { opacity: 0; visibility: hidden; } }
+
+  /* ---- Lens flare sweep (every 8s) ---- */
+  .lens-flare { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; mix-blend-mode: screen; }
+  .lens-flare::before { content: ""; position: absolute; top: -25%; left: 0; width: 34%; height: 150%;
+    background: linear-gradient(100deg, transparent 35%, rgba(196,214,255,0.55) 50%, transparent 65%);
+    filter: blur(10px); transform: translateX(-130%) rotate(9deg); animation: flareSweep 8s ease-in-out infinite; }
+  @keyframes flareSweep {
+    0% { transform: translateX(-130%) rotate(9deg); opacity: 0; }
+    8% { opacity: 0.85; }
+    42% { transform: translateX(420%) rotate(9deg); opacity: 0.85; }
+    50%, 100% { transform: translateX(420%) rotate(9deg); opacity: 0; }
+  }
+
+  /* ---- Social-proof marquee ---- */
+  .proof { border-block: 1px solid var(--line); background: oklch(0.16 0.022 274 / 0.55); overflow: hidden; }
+  .proof__track { display: flex; gap: 3.4rem; width: max-content; padding-block: 0.8rem; animation: scrollX 22s linear infinite; }
+  .proof__track span { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink-soft);
+    font-size: 0.86rem; font-weight: 500; letter-spacing: 0.01em; white-space: nowrap; }
+  .proof__track .star { color: var(--accent); font-style: normal; }
+
+  /* ---- Add-to-cart checkmark draw ---- */
+  .toast .check { transform: scale(0); animation: checkPop 0.4s var(--e-quint) forwards; }
+  @keyframes checkPop { to { transform: scale(1); } }
+  .toast .check svg path { stroke-dasharray: 26; stroke-dashoffset: 26; animation: checkDraw 0.45s var(--e-quart) 0.12s forwards; }
+  @keyframes checkDraw { to { stroke-dashoffset: 0; } }
+
   /* ---- Cinematic reveal: blur → sharp ---- */
   .js .reveal { opacity: 0; transform: translateY(30px); filter: blur(16px);
     transition: opacity 0.9s var(--e-expo), transform 0.9s var(--e-expo), filter 0.9s var(--e-expo); }
@@ -378,12 +460,20 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
     .js .story__title .ch, .js .hero__fade, .js .reveal, .spec { opacity: 1 !important; transform: none !important; filter: none !important; }
-    .marquee, .showcase__spot { animation: none; }
+    .marquee, .proof__track, .showcase__spot, .lens-flare::before, .price:hover { animation: none !important; }
+    .intro, .lens-flare { display: none !important; }
     .rule { transform: scaleX(1); opacity: 0.6; }
   }
 </style>
 </head>
 <body>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro__logo">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V4l16 16V4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    NEXUS
+  </div>
+</div>
 
 <div class="grain" aria-hidden="true"></div>
 
@@ -564,6 +654,7 @@
   <section class="story" id="story">
     <div class="story__stage" id="storyStage">
       <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="lens-flare" aria-hidden="true"></div>
 
       <div class="story__hero" id="storyHero">
         <div class="wrap">
@@ -600,14 +691,6 @@
     </div>
   </section>
 
-  <!-- ===================== STRIP ===================== -->
-  <div class="strip" aria-hidden="true">
-    <div class="marquee" id="marquee">
-      <span>Free 2-day delivery</span><span>2-year NEXUS Care</span><span>Trade in &amp; save</span><span>Carbon-neutral shipping</span><span>30-day returns</span><span>24/7 expert support</span>
-      <span>Free 2-day delivery</span><span>2-year NEXUS Care</span><span>Trade in &amp; save</span><span>Carbon-neutral shipping</span><span>30-day returns</span><span>24/7 expert support</span>
-    </div>
-  </div>
-
   <!-- ===================== LINEUP ===================== -->
   <section class="section" id="lineup">
     <div class="wrap">
@@ -617,7 +700,7 @@
       </div>
 
       <div class="bento">
-        <article class="card card--featured reveal">
+        <article class="card card--feat reveal">
           <span class="card__tag">Flagship phone</span>
           <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-phone"/></svg></div>
           <h3 class="card__name">NEXUS 15 Pro</h3>
@@ -629,48 +712,56 @@
           </div>
         </article>
 
-        <article class="card reveal" style="--d:.06s">
-          <span class="card__tag">Laptop</span>
+        <article class="card card--lap card--wide reveal" style="--d:.06s">
           <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-laptop"/></svg></div>
+          <span class="card__tag">Laptop</span>
           <h3 class="card__name">NEXUS Book Pro</h3>
-          <p class="card__desc">Desktop power that fits in your bag.</p>
+          <p class="card__desc">Desktop-class power, in a bag that forgets it's there.</p>
           <div class="card__foot"><span class="price">$2,499</span><button class="btn" data-add="NEXUS Book Pro">Add to cart</button></div>
         </article>
 
-        <article class="card reveal" style="--d:.12s">
+        <article class="card card--pods reveal" style="--d:.12s">
           <span class="card__tag">Audio</span>
           <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-airpods"/></svg></div>
-          <h3 class="card__name">NEXUS Pods Ultra</h3>
-          <p class="card__desc">Silence, on demand. Sound, on another level.</p>
-          <div class="card__foot"><span class="price">$449</span><button class="btn" data-add="NEXUS Pods Ultra">Add to cart</button></div>
+          <h3 class="card__name">Pods Ultra</h3>
+          <p class="card__desc">Silence, on demand.</p>
+          <div class="card__foot"><span class="price">$449</span><button class="btn" data-add="NEXUS Pods Ultra">Add</button></div>
         </article>
 
-        <article class="card reveal" style="--d:.06s">
-          <span class="card__tag">Watch</span>
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-watch"/></svg></div>
-          <h3 class="card__name">NEXUS Watch S9</h3>
-          <p class="card__desc">Your health in focus, all day, every day.</p>
-          <div class="card__foot"><span class="price">$529</span><button class="btn" data-add="NEXUS Watch S9">Add to cart</button></div>
-        </article>
-
-        <article class="card reveal" style="--d:.12s">
+        <article class="card card--ipad card--tall reveal" style="--d:.06s">
           <span class="card__tag">Tablet</span>
           <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-ipad"/></svg></div>
           <h3 class="card__name">NEXUS Pad Air</h3>
-          <p class="card__desc">A canvas for everything. Impossibly light.</p>
+          <p class="card__desc">A canvas for everything. Impossibly light, endlessly capable.</p>
           <div class="card__foot"><span class="price">$799</span><button class="btn" data-add="NEXUS Pad Air">Add to cart</button></div>
         </article>
 
-        <article class="card reveal" style="--d:.18s">
-          <span class="card__tag">Speaker</span>
+        <article class="card card--watch reveal" style="--d:.12s">
+          <span class="card__tag">Watch</span>
+          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-watch"/></svg></div>
+          <h3 class="card__name">Watch S9</h3>
+          <p class="card__desc">Health, in focus.</p>
+          <div class="card__foot"><span class="price">$529</span><button class="btn" data-add="NEXUS Watch S9">Add</button></div>
+        </article>
+
+        <article class="card card--spkr card--wide reveal" style="--d:.18s">
           <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-speaker"/></svg></div>
+          <span class="card__tag">Speaker</span>
           <h3 class="card__name">NEXUS Sound</h3>
-          <p class="card__desc">Room-filling, spatial audio that disappears into the decor.</p>
+          <p class="card__desc">Room-filling spatial audio that disappears into the decor.</p>
           <div class="card__foot"><span class="price">$349</span><button class="btn" data-add="NEXUS Sound">Add to cart</button></div>
         </article>
       </div>
     </div>
   </section>
+
+  <!-- ===================== SOCIAL PROOF ===================== -->
+  <div class="proof" aria-hidden="true">
+    <div class="proof__track">
+      <span><i class="star">★</i> Free shipping over $999</span><span><i class="star">★</i> 2-year warranty</span><span><i class="star">★</i> 30-day returns</span><span><i class="star">★</i> 4.9/5 from 12,400 reviews</span>
+      <span><i class="star">★</i> Free shipping over $999</span><span><i class="star">★</i> 2-year warranty</span><span><i class="star">★</i> 30-day returns</span><span><i class="star">★</i> 4.9/5 from 12,400 reviews</span>
+    </div>
+  </div>
 
   <div class="wrap"><hr class="rule" /></div>
 
@@ -746,6 +837,10 @@
   document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+  /* cinematic intro: safety net so the curtain never gets stuck */
+  const introEl = document.querySelector('.intro');
+  if (introEl) setTimeout(() => { introEl.style.display = 'none'; }, 2400);
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -873,10 +968,12 @@
   const camera = new THREE.PerspectiveCamera(34, W / H, 0.1, 100);
   camera.position.set(0, 0, 9);
 
-  scene.add(new THREE.AmbientLight(0x2a3a55, 0.9));
-  const key = new THREE.DirectionalLight(0xaec4ff, 2.1); key.position.set(-4, 6, 6); scene.add(key);
-  const rim = new THREE.DirectionalLight(0xffb24d, 1.5); rim.position.set(5, -2, -3); scene.add(rim);
-  const fill = new THREE.PointLight(0x6f7bff, 0.7, 40); fill.position.set(0, -4, 5); scene.add(fill);
+  // Dramatic product-photoshoot lighting: strong left rim, deep right shadow
+  scene.add(new THREE.AmbientLight(0x141d36, 0.3));
+  const rimLeft = new THREE.DirectionalLight(0xdfe9ff, 3.9); rimLeft.position.set(-7, 2.5, 3.5); scene.add(rimLeft);
+  const keyTop = new THREE.DirectionalLight(0xbcd2ff, 1.0); keyTop.position.set(-3, 7, 5); scene.add(keyTop);
+  const fillFront = new THREE.PointLight(0x3a55a0, 0.3, 40); fillFront.position.set(-1.5, -2, 6); scene.add(fillFront);
+  const kicker = new THREE.DirectionalLight(0xffca9a, 0.22); kicker.position.set(6, -1, -2); scene.add(kicker);
 
   /* studio environment → metallic specular reflections */
   (function buildEnvironment() {
