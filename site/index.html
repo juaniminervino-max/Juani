@@ -1,530 +1,629 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Luxury Yachts — a premium brokerage for buying, selling, and chartering the world's finest superyachts. Curated fleet, discreet service, global reach." />
-  <title>Luxury Yachts — Premium Yacht Brokerage &amp; Sales</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Luxury Yachts — a discreet brokerage for the world's finest superyachts. Buy, sell, charter, and commission extraordinary vessels." />
+<meta name="theme-color" content="#05060f" />
+<title>Luxury Yachts — The Art of the Sea</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink: '#0C0A09', stone900: '#1C1917', stone700: '#44403C', stone600: '#57534E',
-            sand: '#FAFAF9', gold: '#CA8A04', goldlight: '#E3B341',
-          },
-          fontFamily: {
-            display: ['Cormorant', 'Georgia', 'serif'],
-            body: ['Montserrat', 'system-ui', 'sans-serif'],
-          },
-        },
-      },
-    };
-  </script>
+<style>
+  :root{
+    --bg:#05060f; --bg2:#0a0b1a;
+    --navy:#0b1640; --navy2:#142060;
+    --purple:#7c3aed; --purple-soft:#a855f7;
+    --gold:#e6c15a; --gold-deep:#caa024; --gold-bright:#ffe9a8;
+    --text:#f4f5fb; --muted:#9aa0bf; --line:rgba(255,255,255,.08);
+    --glass:rgba(255,255,255,.04); --glass-strong:rgba(255,255,255,.07);
+    --maxw:1240px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text);
+    overflow-x:hidden; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif; font-weight:700; line-height:1.05; letter-spacing:-.02em}
+  .accent{font-family:'Cormorant',serif; font-style:italic; font-weight:600}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ::selection{background:rgba(230,193,90,.28)}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .muted{color:var(--muted)}
+  .text-gradient{
+    background:linear-gradient(100deg,var(--gold-bright),var(--gold) 35%,var(--purple-soft) 70%,#cfd6ff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
 
-  <style>
-    :root { --gold: #CA8A04; --goldlight: #E3B341; }
-    body { font-family: 'Montserrat', system-ui, sans-serif; background: #0C0A09; }
-    .font-display { font-family: 'Cormorant', Georgia, serif; }
-    .tracking-luxe { letter-spacing: 0.28em; }
-    ::selection { background: rgba(202,138,4,.25); }
+  /* ---------- background grain + vignette ---------- */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%);
+    mix-blend-mode:multiply;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
-    /* ---------- Scroll reveal (staggered, directional) ---------- */
-    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
-    .reveal.from-left  { transform: translateX(-40px); }
-    .reveal.from-right { transform: translateX(40px); }
-    .reveal.zoom       { transform: scale(.92); }
-    .reveal.in { opacity: 1; transform: none; }
+  /* ---------- cursor glow ---------- */
+  #cursor-glow{
+    position:fixed;top:0;left:0;width:520px;height:520px;border-radius:50%;
+    transform:translate(-50%,-50%);pointer-events:none;z-index:2;opacity:0;transition:opacity .4s ease;
+    background:radial-gradient(circle,rgba(124,58,237,.18),rgba(230,193,90,.07) 40%,transparent 65%);
+    mix-blend-mode:screen;
+  }
 
-    /* ---------- Aurora (animated layered gradients) ---------- */
-    .aurora { position: absolute; inset: -25%; filter: blur(70px); opacity: .55; pointer-events: none; }
-    .aurora span { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
-    .aurora .a1 { width: 55vw; height: 55vw; left: -5%; top: -10%; background: radial-gradient(circle at 30% 30%, #1e6f78, transparent 60%); animation: drift1 22s ease-in-out infinite; }
-    .aurora .a2 { width: 50vw; height: 50vw; right: -8%; top: 5%; background: radial-gradient(circle at 60% 40%, #b5870f, transparent 62%); animation: drift2 27s ease-in-out infinite; }
-    .aurora .a3 { width: 48vw; height: 48vw; left: 25%; bottom: -20%; background: radial-gradient(circle at 50% 50%, #0e3a52, transparent 60%); animation: drift3 31s ease-in-out infinite; }
-    @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(8%,6%) scale(1.12)} }
-    @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-7%,9%) scale(1.18)} }
-    @keyframes drift3 { 0%,100%{transform:translate(0,0) scale(1.05)} 50%{transform:translate(6%,-8%) scale(.95)} }
+  /* ---------- scroll progress ---------- */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--gold),var(--purple-soft))}
 
-    /* ---------- Shifting gradient backgrounds ---------- */
-    .gradient-shift {
-      background: linear-gradient(120deg, #0C0A09, #1C1917, #14110f, #1a140a, #0C0A09);
-      background-size: 300% 300%;
-      animation: gradShift 18s ease infinite;
-    }
-    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  /* ---------- nav ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50}
+  nav{
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    max-width:var(--maxw);margin:18px auto 0;padding:14px 22px;border-radius:100px;
+    background:rgba(8,9,20,.35);border:1px solid var(--line);backdrop-filter:blur(16px);
+    transition:background .4s ease,box-shadow .4s ease,margin .3s ease;
+  }
+  nav.scrolled{background:rgba(8,9,20,.78);box-shadow:0 12px 40px -18px #000}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:600;font-size:1.18rem}
+  .brand svg{width:26px;height:26px;color:var(--gold)}
+  .brand b{color:var(--gold);font-weight:700}
+  .nav-links{display:flex;gap:30px;list-style:none}
+  .nav-links a{font-size:.86rem;color:var(--muted);position:relative;transition:color .25s}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--gold);transition:width .3s}
+  .nav-links a:hover{color:var(--text)} .nav-links a:hover::after{width:100%}
+  .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer}
+  @media(max-width:860px){.nav-links{display:none}.menu-btn{display:block}}
 
-    /* ---------- Floating elements ---------- */
-    .float-slow { animation: floatY 7s ease-in-out infinite; }
-    .float-med  { animation: floatY 5s ease-in-out infinite; }
-    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;
+    padding:15px 30px;border-radius:100px;cursor:pointer;border:0;transition:transform .3s,box-shadow .3s,color .3s}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 
-    /* ---------- Gold shimmer text ---------- */
-    .shimmer {
-      background: linear-gradient(100deg, var(--gold) 20%, #fff6d8 45%, var(--gold) 70%);
-      background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
-      animation: shimmerMove 5s linear infinite;
-    }
-    @keyframes shimmerMove { to { background-position: 200% center; } }
+  /* animated gradient-border CTA */
+  .cta{position:relative;background:#0a0b18;color:var(--text);isolation:isolate}
+  .cta::before{
+    content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:-1;
+    background:conic-gradient(from var(--angle,0deg),var(--gold),var(--purple-soft),var(--navy2),var(--gold));
+    animation:spin 5s linear infinite;
+  }
+  .cta::after{
+    content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:-2;filter:blur(16px);opacity:.6;
+    background:conic-gradient(from var(--angle,0deg),var(--gold),var(--purple-soft),var(--navy2),var(--gold));
+    animation:spin 5s linear infinite;
+  }
+  .cta:hover{transform:translateY(-2px)}
+  @property --angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+  @keyframes spin{to{--angle:360deg}}
+  /* fallback if @property unsupported: still shows a static gradient ring */
 
-    /* ---------- Premium card hover ---------- */
-    .card-lux { transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease, border-color .5s ease; }
-    .card-lux:hover { transform: translateY(-10px); box-shadow: 0 30px 60px -25px rgba(0,0,0,.7), 0 0 0 1px rgba(202,138,4,.35); }
-    .card-lux:hover .card-img { transform: scale(1.08); }
-    .card-img { transition: transform .9s cubic-bezier(.16,1,.3,1); }
-    /* sheen sweep */
-    .sheen { position: relative; overflow: hidden; }
-    .sheen::after {
-      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
-      background: linear-gradient(110deg, transparent, rgba(255,255,255,.18), transparent);
-      transform: skewX(-20deg); transition: left .8s ease;
-    }
-    .card-lux:hover .sheen::after, .btn-sheen:hover::after { left: 130%; }
-    .btn-sheen { position: relative; overflow: hidden; }
-    .btn-sheen::after {
-      content: ""; position: absolute; top: 0; left: -120%; width: 50%; height: 100%;
-      background: linear-gradient(110deg, transparent, rgba(255,255,255,.45), transparent);
-      transform: skewX(-20deg); transition: left .7s ease;
-    }
+  .glow-gold{box-shadow:0 0 0 1px rgba(230,193,90,.25),0 0 40px -8px rgba(230,193,90,.45)}
 
-    /* ---------- Animated underline links ---------- */
-    .nav-link { position: relative; }
-    .nav-link::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0; background: var(--gold); transition: width .35s ease; }
-    .nav-link:hover::after { width: 100%; }
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;z-index:3}
+  .mesh{position:absolute;inset:-20%;z-index:-2;filter:blur(60px);opacity:.9}
+  .mesh span{position:absolute;border-radius:50%;mix-blend-mode:screen;will-change:transform}
+  .mesh .m1{width:46vw;height:46vw;left:-6%;top:-8%;background:radial-gradient(circle at 35% 35%,#1b2f8a,transparent 60%);animation:float1 24s ease-in-out infinite}
+  .mesh .m2{width:42vw;height:42vw;right:-6%;top:0;background:radial-gradient(circle at 60% 40%,#7c3aed,transparent 62%);animation:float2 28s ease-in-out infinite}
+  .mesh .m3{width:40vw;height:40vw;left:18%;bottom:-18%;background:radial-gradient(circle at 50% 50%,#caa024,transparent 60%);animation:float3 32s ease-in-out infinite}
+  .mesh .m4{width:30vw;height:30vw;right:18%;bottom:-10%;background:radial-gradient(circle at 50% 50%,#3a1d8a,transparent 60%);animation:float1 26s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(7%,6%) scale(1.12)}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8%,8%) scale(1.18)}}
+  @keyframes float3{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(6%,-7%) scale(.95)}}
+  .hero-img{position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover;opacity:.22}
+  .hero-veil{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,6,15,.5),rgba(5,6,15,.2) 40%,var(--bg))}
 
-    /* ---------- Scroll progress bar ---------- */
-    #progress { position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 60; background: linear-gradient(90deg, var(--gold), var(--goldlight)); }
+  /* floating 3D shapes */
+  .shapes{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .shape{position:absolute;will-change:transform;opacity:.9}
+  .shape .face,.ring,.tri{filter:drop-shadow(0 10px 30px rgba(124,58,237,.35))}
+  .ring{border-radius:50%;border:1.5px solid rgba(230,193,90,.5);background:radial-gradient(circle at 30% 30%,rgba(230,193,90,.12),transparent 70%)}
+  .cube{transform-style:preserve-3d;animation:rotate3d 18s linear infinite}
+  .cube .face{position:absolute;width:100%;height:100%;border:1px solid rgba(230,193,90,.45);
+    background:linear-gradient(135deg,rgba(124,58,237,.22),rgba(230,193,90,.1))}
+  @keyframes rotate3d{to{transform:rotateX(360deg) rotateY(360deg)}}
+  .s1{left:11%;top:26%;width:90px;height:90px}
+  .s2{right:12%;top:30%;width:64px;height:64px}
+  .s3{right:22%;bottom:22%;width:120px;height:120px}
+  .s4{left:20%;bottom:20%;width:46px;height:46px;transform:rotate(18deg)}
+  .tri{width:0;height:0;border-left:34px solid transparent;border-right:34px solid transparent;
+    border-bottom:60px solid rgba(124,58,237,.35)}
+  @media(max-width:860px){.shape{display:none}}
 
-    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .hero-content{position:relative;z-index:2}
+  .hero h1{font-size:clamp(2.8rem,8vw,6.4rem);margin:18px 0 0}
+  .hero p.lead{max-width:560px;margin:26px 0 0;font-size:clamp(1rem,1.6vw,1.18rem);color:#c9cce4;font-weight:300}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:16px;margin-top:38px}
+  .scroll-cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:2;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+  .scroll-cue span{width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:cue 2s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4;transform-origin:top}50%{transform:scaleY(1);opacity:1}}
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .aurora span, .gradient-shift, .float-slow, .float-med, .shimmer { animation: none !important; }
-      .card-img, .card-lux { transition: none !important; }
-      #particles { display: none; }
-    }
-  </style>
+  /* ---------- generic section ---------- */
+  section{position:relative;z-index:3}
+  .section-pad{padding:120px 0}
+  .head-xl{font-size:clamp(2rem,4.5vw,3.4rem);margin-top:14px}
+  .center{text-align:center}
+  .center .lead{max-width:620px;margin:18px auto 0}
+
+  /* ---------- stats ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .stat{padding:34px 22px;text-align:center;border-radius:20px;background:var(--glass);
+    border:1px solid var(--line);backdrop-filter:blur(10px)}
+  .stat .num{font-family:'Space Grotesk';font-weight:700;font-size:clamp(2rem,4vw,3rem);color:var(--gold)}
+  .stat .lbl{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---------- fleet horizontal ---------- */
+  .fleet-section{position:relative}
+  .fleet-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:46px}
+  .fleet-viewport{overflow-x:auto;scrollbar-width:none}
+  .fleet-viewport::-webkit-scrollbar{display:none}
+  body.h-scroll .fleet-viewport{overflow:visible}
+  .fleet-track{display:flex;gap:28px;width:max-content;padding:6px 24px 6px 0}
+  .yacht{
+    position:relative;width:min(80vw,440px);flex:0 0 auto;border-radius:24px;overflow:hidden;
+    background:var(--glass-strong);border:1px solid var(--line);backdrop-filter:blur(12px);
+    transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s,border-color .5s;
+  }
+  .yacht:hover{transform:translateY(-10px);border-color:rgba(230,193,90,.4);
+    box-shadow:0 40px 80px -40px #000,0 0 50px -18px rgba(230,193,90,.4)}
+  .yacht-img{position:relative;aspect-ratio:16/11;overflow:hidden}
+  .yacht-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.16,1,.3,1)}
+  .yacht:hover .yacht-img img{transform:scale(1.08)}
+  .tag{position:absolute;left:16px;top:16px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:6px 12px;border-radius:100px;background:rgba(5,6,15,.6);color:var(--gold);backdrop-filter:blur(6px)}
+  .tag.new{background:var(--gold);color:#0a0b18;font-weight:700}
+  .yacht-body{padding:24px}
+  .yacht-body .row{display:flex;justify-content:space-between;align-items:baseline}
+  .yacht-body h3{font-size:1.5rem}
+  .yacht-body .price{font-family:'Space Grotesk';font-weight:700;color:var(--gold)}
+  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);text-align:center}
+  .specs dt{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .specs dd{font-weight:600;margin-top:4px}
+  .progress-hint{font-size:.72rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase}
+
+  /* ---------- services (glass, flip-rise) ---------- */
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  @media(max-width:980px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid-4{grid-template-columns:1fr}}
+  .glass-card{padding:32px;border-radius:22px;background:var(--glass);border:1px solid var(--line);
+    backdrop-filter:blur(14px);transition:transform .5s,border-color .5s,box-shadow .5s}
+  .glass-card:hover{transform:translateY(-8px);border-color:rgba(230,193,90,.35);
+    box-shadow:0 30px 60px -34px #000,0 0 40px -16px rgba(124,58,237,.5)}
+  .glass-card .ico{width:46px;height:46px;color:var(--gold);margin-bottom:18px}
+  .glass-card h3{font-size:1.3rem;margin-bottom:10px}
+  .glass-card p{color:var(--muted);font-size:.92rem}
+
+  /* ---------- about ---------- */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  @media(max-width:900px){.about{grid-template-columns:1fr;gap:36px}}
+  .about-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5}
+  .about-img img{width:100%;height:100%;object-fit:cover}
+  .badge{position:absolute;right:-18px;bottom:-18px;padding:26px;border-radius:20px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0a0b18;text-align:center}
+  .badge b{font-family:'Space Grotesk';font-size:2.2rem;display:block;line-height:1}
+  .badge small{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase}
+  .ticks{list-style:none;margin-top:30px;display:grid;gap:16px}
+  .ticks li{display:flex;gap:14px}
+  .ticks svg{flex:none;width:22px;height:22px;color:var(--gold);margin-top:3px}
+  .ticks b{color:var(--text)} .ticks span{color:var(--muted)}
+
+  /* ---------- testimonials ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:880px){.grid-3{grid-template-columns:1fr}}
+  .quote{padding:32px;border-radius:22px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px)}
+  .stars{display:flex;gap:4px;color:var(--gold)}
+  .stars svg{width:18px;height:18px}
+  .quote blockquote{font-family:'Cormorant';font-style:italic;font-size:1.32rem;line-height:1.4;margin:18px 0 20px}
+  .quote .who b{display:block} .quote .who span{color:var(--muted);font-size:.85rem}
+
+  /* ---------- contact ---------- */
+  .contact{position:relative;border-radius:30px;overflow:hidden;
+    background:linear-gradient(135deg,rgba(11,22,64,.7),rgba(124,58,237,.18));
+    border:1px solid var(--line);backdrop-filter:blur(10px)}
+  .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:56px}
+  @media(max-width:900px){.contact-inner{grid-template-columns:1fr;padding:34px}}
+  .field{margin-top:18px}
+  .field label{display:block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;padding:14px 16px;border-radius:12px;
+    background:rgba(5,6,15,.5);border:1px solid var(--line);color:var(--text);font:inherit;transition:border-color .3s,box-shadow .3s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(230,193,90,.15)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .contact-info p{display:flex;align-items:center;gap:12px;color:#cfd2e8;margin-top:16px;font-size:.92rem}
+  .contact-info svg{width:20px;height:20px;color:var(--gold);flex:none}
+  #note{margin-top:16px;color:var(--gold);font-size:.9rem;display:none}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);margin-top:40px}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:40px 0}
+  .foot .muted{font-size:.82rem}
+
+  /* ---------- reveal base (used by GSAP; safe default visible) ---------- */
+  .reveal,.rise,.flip{will-change:transform,opacity}
+
+  /* ---------- reduced motion ---------- */
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    #cursor-glow{display:none}
+    .mesh{opacity:.7}
+  }
+  .focus-visible:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+    outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+  .skip{position:absolute;left:-9999px}
+  .skip:focus{left:16px;top:16px;z-index:99;background:#0a0b18;padding:10px 16px;border-radius:8px}
+</style>
 </head>
 
-<body class="bg-ink text-sand antialiased">
+<body>
+<div id="progress" aria-hidden="true"></div>
+<div id="cursor-glow" aria-hidden="true"></div>
+<a href="#main" class="skip">Skip to content</a>
 
-  <div id="progress" aria-hidden="true"></div>
-  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-stone900 focus:text-sand focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
+<header>
+  <nav id="nav" aria-label="Primary">
+    <a class="brand" href="#top" aria-label="Luxury Yachts home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Luxury <b>Yachts</b>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#fleet">Fleet</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">Heritage</a></li>
+      <li><a href="#testimonials">Clients</a></li>
+    </ul>
+    <a href="#contact" class="btn cta" style="padding:11px 22px">Contact Sales</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+    </button>
+  </nav>
+</header>
 
-  <!-- ============ NAVBAR ============ -->
-  <header id="nav" class="fixed inset-x-0 top-0 z-40">
-    <div class="mx-auto max-w-7xl px-5">
-      <nav class="mt-4 flex items-center justify-between rounded-full border border-white/10 bg-ink/30 px-5 py-3 backdrop-blur-md transition-all duration-300" aria-label="Primary">
-        <a href="#top" class="flex items-center gap-2.5 text-sand">
-          <svg class="h-7 w-7 text-gold float-med" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <path d="M3 16l9-12 9 12" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 16c2.5 2 6 3 9 3s6.5-1 9-3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="font-display text-2xl font-600 leading-none">Luxury <span class="text-gold">Yachts</span></span>
+<main id="main">
+
+  <!-- ============== HERO ============== -->
+  <section class="hero" id="top">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=2000&q=80" alt="A superyacht cutting through open ocean at dusk" loading="eager" fetchpriority="high" />
+    <div class="mesh" aria-hidden="true"><span class="m1"></span><span class="m2"></span><span class="m3"></span><span class="m4"></span></div>
+    <div class="hero-veil" aria-hidden="true"></div>
+
+    <div class="shapes" aria-hidden="true">
+      <div class="shape s1" data-depth="0.06"><div class="cube" style="position:relative;width:100%;height:100%">
+        <div class="face" style="transform:translateZ(45px)"></div><div class="face" style="transform:rotateY(180deg) translateZ(45px)"></div>
+        <div class="face" style="transform:rotateY(90deg) translateZ(45px)"></div><div class="face" style="transform:rotateY(-90deg) translateZ(45px)"></div>
+        <div class="face" style="transform:rotateX(90deg) translateZ(45px)"></div><div class="face" style="transform:rotateX(-90deg) translateZ(45px)"></div>
+      </div></div>
+      <div class="shape s2" data-depth="0.12"><div class="ring" style="width:100%;height:100%"></div></div>
+      <div class="shape s3" data-depth="0.04"><div class="ring" style="width:100%;height:100%"></div></div>
+      <div class="shape s4" data-depth="0.16"><div class="tri"></div></div>
+    </div>
+
+    <div class="wrap hero-content">
+      <p class="eyebrow" data-hero>Bespoke Superyacht Brokerage · Est. 1998</p>
+      <h1 data-hero>The Art of<br><span class="text-gradient">the Open Sea.</span></h1>
+      <p class="lead" data-hero>We curate, broker, and commission the world's most extraordinary vessels — for owners who measure life in horizons, not destinations.</p>
+      <div class="hero-actions" data-hero>
+        <a href="#fleet" class="btn cta glow-gold">Explore the Fleet
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <ul class="hidden items-center gap-8 text-sm font-300 text-sand/90 md:flex">
-          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#fleet">Fleet</a></li>
-          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#services">Services</a></li>
-          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#about">About</a></li>
-          <li><a class="nav-link transition-colors duration-200 hover:text-gold" href="#testimonials">Clients</a></li>
-        </ul>
-        <a href="#contact" class="btn-sheen hidden cursor-pointer rounded-full bg-gold px-5 py-2.5 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight md:inline-block">Contact Sales</a>
-        <button id="menuBtn" class="cursor-pointer rounded-full p-2 text-sand md:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
-        </button>
-      </nav>
-      <div id="mobileMenu" class="mt-2 hidden rounded-2xl border border-white/10 bg-ink/90 p-4 backdrop-blur-md md:hidden">
-        <ul class="flex flex-col gap-1 text-sand">
-          <li><a class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-gold" href="#fleet">Fleet</a></li>
-          <li><a class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-gold" href="#services">Services</a></li>
-          <li><a class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-gold" href="#about">About</a></li>
-          <li><a class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-gold" href="#testimonials">Clients</a></li>
-          <li class="pt-2"><a class="block rounded-full bg-gold px-3 py-2.5 text-center font-600 text-ink" href="#contact">Contact Sales</a></li>
+        <a href="#contact" class="btn btn-ghost">Speak with a Broker</a>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true"><span></span>Scroll</div>
+  </section>
+
+  <!-- ============== STATS ============== -->
+  <section class="section-pad" id="stats">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat reveal"><div class="num" data-count="2.4" data-dec="1" data-prefix="$" data-suffix="B+">$0</div><div class="lbl">Vessels Sold</div></div>
+        <div class="stat reveal"><div class="num" data-count="320" data-suffix="+">0</div><div class="lbl">Yachts Brokered</div></div>
+        <div class="stat reveal"><div class="num" data-count="27">0</div><div class="lbl">Years at Sea</div></div>
+        <div class="stat reveal"><div class="num" data-count="14">0</div><div class="lbl">Global Offices</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== FLEET (horizontal) ============== -->
+  <section class="fleet-section section-pad" id="fleet">
+    <div class="wrap fleet-head">
+      <div>
+        <p class="eyebrow reveal">Featured Listings</p>
+        <h2 class="head-xl reveal">A Curated Fleet</h2>
+      </div>
+      <p class="progress-hint reveal">Scroll to navigate →</p>
+    </div>
+    <div class="fleet-viewport">
+      <div class="fleet-track wrap" style="max-width:none">
+        <article class="yacht">
+          <div class="yacht-img"><img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=900&q=80" alt="Sleek motor yacht on turquoise water" loading="lazy"><span class="tag">For Sale</span></div>
+          <div class="yacht-body"><div class="row"><h3>Aurelia</h3><span class="price">$32.5M</span></div><p class="muted" style="margin-top:6px">2021 · Benetti · Italy</p>
+            <dl class="specs"><div><dt>Length</dt><dd>63 m</dd></div><div><dt>Guests</dt><dd>12</dd></div><div><dt>Cabins</dt><dd>6</dd></div></dl>
+          </div>
+        </article>
+        <article class="yacht">
+          <div class="yacht-img"><img src="https://images.unsplash.com/photo-1599582909646-1c0e3a5b4d4b?auto=format&fit=crop&w=900&q=80" alt="Sailing yacht with tall masts" loading="lazy"><span class="tag">For Sale</span></div>
+          <div class="yacht-body"><div class="row"><h3>Sirocco</h3><span class="price">$18.9M</span></div><p class="muted" style="margin-top:6px">2019 · Perini Navi · Sailing</p>
+            <dl class="specs"><div><dt>Length</dt><dd>47 m</dd></div><div><dt>Guests</dt><dd>10</dd></div><div><dt>Cabins</dt><dd>5</dd></div></dl>
+          </div>
+        </article>
+        <article class="yacht">
+          <div class="yacht-img"><img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=900&q=80" alt="Superyacht deck with loungers" loading="lazy"><span class="tag new">New Build</span></div>
+          <div class="yacht-body"><div class="row"><h3>Meridian</h3><span class="price">$54.0M</span></div><p class="muted" style="margin-top:6px">2024 · Lürssen · Germany</p>
+            <dl class="specs"><div><dt>Length</dt><dd>78 m</dd></div><div><dt>Guests</dt><dd>14</dd></div><div><dt>Cabins</dt><dd>7</dd></div></dl>
+          </div>
+        </article>
+        <article class="yacht">
+          <div class="yacht-img"><img src="https://images.unsplash.com/photo-1614350807759-9c1f1f1d0b6e?auto=format&fit=crop&w=900&q=80" alt="Yacht anchored near a coastline" loading="lazy"><span class="tag">For Sale</span></div>
+          <div class="yacht-body"><div class="row"><h3>Halcyon</h3><span class="price">$41.2M</span></div><p class="muted" style="margin-top:6px">2022 · Feadship · Netherlands</p>
+            <dl class="specs"><div><dt>Length</dt><dd>69 m</dd></div><div><dt>Guests</dt><dd>12</dd></div><div><dt>Cabins</dt><dd>6</dd></div></dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SERVICES ============== -->
+  <section class="section-pad" id="services">
+    <div class="wrap">
+      <div class="center">
+        <p class="eyebrow reveal">What We Do</p>
+        <h2 class="head-xl reveal">An Owner's Full Journey</h2>
+        <p class="lead muted reveal">From first acquisition to final sale, every detail handled with the discretion the moment deserves.</p>
+      </div>
+      <div class="grid-4" style="margin-top:56px">
+        <div class="glass-card flip">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3M12 4v15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Sales &amp; Brokerage</h3><p>Confidential representation for buyers and sellers, backed by deep market intelligence and a global network.</p>
+        </div>
+        <div class="glass-card flip">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <h3>Charter</h3><p>Curated charter experiences across the Mediterranean, Caribbean, and beyond — itineraries built around you.</p>
+        </div>
+        <div class="glass-card flip">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Management</h3><p>Crew, maintenance, compliance, and accounting — comprehensive stewardship so ownership stays effortless.</p>
+        </div>
+        <div class="glass-card flip">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h16M6 20V9l6-4 6 4v11M10 20v-5h4v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>New Construction</h3><p>Guidance from concept to launch with the world's premier shipyards, protecting your vision and investment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== ABOUT ============== -->
+  <section class="section-pad" id="about">
+    <div class="wrap about">
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1542902093-d55926049754?auto=format&fit=crop&w=1000&q=80" alt="A broker and clients reviewing plans on a sunlit deck" loading="lazy" />
+        <div class="badge"><b>98%</b><small>Client referral rate</small></div>
+      </div>
+      <div>
+        <p class="eyebrow reveal">Our Heritage</p>
+        <h2 class="head-xl reveal">Quiet Expertise,<br><span class="accent text-gradient">Uncompromising</span> Results</h2>
+        <p class="muted reveal" style="margin-top:20px">For nearly three decades, Luxury Yachts has represented the most discerning owners in the industry. We are not a marketplace — we are a trusted advisor, present at every signing, sea trial, and handover.</p>
+        <ul class="ticks">
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Absolute discretion.</b> Every transaction is private by default and protected by ironclad confidentiality.</span></li>
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Dedicated brokers.</b> One advisor, end to end — no handoffs, no call centres.</span></li>
+          <li class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Global reach.</b> Offices in 14 ports across the Mediterranean, Americas, and Asia-Pacific.</span></li>
         </ul>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main id="main">
-
-    <!-- ============ HERO ============ -->
-    <section id="top" class="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink">
-      <!-- Aurora -->
-      <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
-      <!-- Particle canvas -->
-      <canvas id="particles" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
-      <!-- Background image -->
-      <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=2000&q=80"
-           alt="A white superyacht cruising on deep blue open water at golden hour"
-           class="absolute inset-0 h-full w-full object-cover opacity-30" loading="eager" fetchpriority="high" />
-      <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink"></div>
-
-      <!-- Floating decorative rings -->
-      <div class="pointer-events-none absolute left-[8%] top-[22%] hidden h-24 w-24 rounded-full border border-gold/20 float-slow md:block" aria-hidden="true"></div>
-      <div class="pointer-events-none absolute right-[10%] bottom-[24%] hidden h-16 w-16 rounded-full border border-gold/30 float-med md:block" aria-hidden="true"></div>
-
-      <div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <p class="reveal mb-6 text-xs font-500 uppercase tracking-luxe text-gold">Bespoke Yacht Brokerage · Est. 1998</p>
-        <h1 class="reveal font-display text-5xl font-500 leading-[1.05] sm:text-6xl md:text-7xl lg:text-8xl" style="transition-delay:.08s">
-          The Sea, <span class="italic shimmer">Perfected.</span>
-        </h1>
-        <p class="reveal mx-auto mt-6 max-w-2xl text-base font-300 leading-relaxed text-sand/85 sm:text-lg" style="transition-delay:.16s">
-          A discreet brokerage for the world's most distinguished vessels. We curate, broker, and deliver superyachts for owners who accept nothing short of extraordinary.
-        </p>
-        <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style="transition-delay:.24s">
-          <a href="#fleet" class="btn-sheen w-full cursor-pointer rounded-full bg-gold px-8 py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight sm:w-auto">Explore the Fleet</a>
-          <a href="#contact" class="w-full cursor-pointer rounded-full border border-sand/30 px-8 py-4 text-sm font-500 text-sand transition-all duration-300 hover:border-gold hover:text-gold sm:w-auto">Speak with a Broker</a>
-        </div>
+  <!-- ============== TESTIMONIALS ============== -->
+  <section class="section-pad" id="testimonials">
+    <div class="wrap">
+      <div class="center">
+        <p class="eyebrow reveal">In Their Words</p>
+        <h2 class="head-xl reveal">Trusted by Owners Worldwide</h2>
       </div>
-
-      <a href="#stats" aria-label="Scroll down" class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-sand/70 transition-colors hover:text-gold">
-        <svg class="h-6 w-6 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </section>
-
-    <!-- ============ STATS ============ -->
-    <section id="stats" class="gradient-shift text-sand">
-      <div class="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
-        <div class="reveal zoom p-8 text-center md:p-12"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="2.4" data-suffix="B+" data-prefix="$">$0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Vessels Sold</p></div>
-        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.08s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="320" data-suffix="+">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Yachts Brokered</p></div>
-        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.16s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="27">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Years at Sea</p></div>
-        <div class="reveal zoom p-8 text-center md:p-12" style="transition-delay:.24s"><p class="font-display text-4xl font-600 text-gold md:text-5xl" data-count="14">0</p><p class="mt-2 text-xs uppercase tracking-widest text-sand/60">Global Offices</p></div>
-      </div>
-    </section>
-
-    <!-- ============ FLEET ============ -->
-    <section id="fleet" class="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
-      <div class="mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-        <div>
-          <p class="reveal from-left mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Featured Listings</p>
-          <h2 class="reveal from-left font-display text-4xl font-500 leading-tight md:text-5xl" style="transition-delay:.06s">A Curated Fleet</h2>
-          <p class="reveal from-left mt-4 max-w-xl text-sand/60" style="transition-delay:.12s">Each vessel is personally inspected and represented by a dedicated broker. Prices shown in USD; full specification dossiers available on request.</p>
-        </div>
-        <a href="#contact" class="reveal from-right nav-link cursor-pointer whitespace-nowrap pb-1 text-sm font-600 text-gold">View full inventory →</a>
-      </div>
-
-      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
-        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900">
-          <div class="sheen relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=900&q=80" alt="Sleek modern motor yacht moored in calm turquoise water" loading="lazy" class="card-img h-full w-full object-cover" />
-            <span class="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 text-xs font-500 uppercase tracking-widest text-gold backdrop-blur">For Sale</span>
+      <div class="grid-3" style="margin-top:52px">
+        <figure class="quote rise">
+          <div class="stars" aria-label="5 out of 5">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
           </div>
-          <div class="p-6">
-            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Aurelia</h3><p class="font-display text-xl font-600 text-gold">$32.5M</p></div>
-            <p class="mt-1 text-sm text-sand/50">2021 · Benetti · Italy</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">63 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">12</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">6</dd></div>
-            </dl>
-            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
+          <blockquote>"They sold our Benetti in six weeks at full asking. The process was seamless and entirely confidential."</blockquote>
+          <figcaption class="who"><b>A. Castellano</b><span>Owner, M/Y Aurelia</span></figcaption>
+        </figure>
+        <figure class="quote rise">
+          <div class="stars" aria-label="5 out of 5">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
           </div>
-        </article>
-
-        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900" style="transition-delay:.1s">
-          <div class="sheen relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1599582909646-1c0e3a5b4d4b?auto=format&fit=crop&w=900&q=80" alt="Luxury sailing yacht with tall masts under a clear sky" loading="lazy" class="card-img h-full w-full object-cover" />
-            <span class="absolute left-4 top-4 rounded-full bg-ink/70 px-3 py-1 text-xs font-500 uppercase tracking-widest text-gold backdrop-blur">For Sale</span>
+          <blockquote>"Our broker understood exactly what we wanted before we did. The new build arrived on time and beyond expectation."</blockquote>
+          <figcaption class="who"><b>R. &amp; M. Lindqvist</b><span>Owners, M/Y Meridian</span></figcaption>
+        </figure>
+        <figure class="quote rise">
+          <div class="stars" aria-label="5 out of 5">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
           </div>
-          <div class="p-6">
-            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Sirocco</h3><p class="font-display text-xl font-600 text-gold">$18.9M</p></div>
-            <p class="mt-1 text-sm text-sand/50">2019 · Perini Navi · Sailing</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">47 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">10</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">5</dd></div>
-            </dl>
-            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
-          </div>
-        </article>
-
-        <article class="reveal card-lux group overflow-hidden rounded-2xl border border-white/10 bg-stone900" style="transition-delay:.2s">
-          <div class="sheen relative aspect-[4/3] overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=900&q=80" alt="Expansive superyacht deck with sun loungers overlooking the sea" loading="lazy" class="card-img h-full w-full object-cover" />
-            <span class="absolute left-4 top-4 rounded-full bg-gold px-3 py-1 text-xs font-600 uppercase tracking-widest text-ink backdrop-blur">New Build</span>
-          </div>
-          <div class="p-6">
-            <div class="flex items-baseline justify-between"><h3 class="font-display text-2xl font-600">Meridian</h3><p class="font-display text-xl font-600 text-gold">$54.0M</p></div>
-            <p class="mt-1 text-sm text-sand/50">2024 · Lürssen · Germany</p>
-            <dl class="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 text-center">
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Length</dt><dd class="mt-1 font-600">78 m</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Guests</dt><dd class="mt-1 font-600">14</dd></div>
-              <div><dt class="text-[11px] uppercase tracking-wide text-sand/50">Cabins</dt><dd class="mt-1 font-600">7</dd></div>
-            </dl>
-            <a href="#contact" class="btn-sheen mt-6 block cursor-pointer rounded-full border border-gold/60 py-3 text-center text-sm font-600 text-gold transition-colors duration-200 hover:bg-gold hover:text-ink">Enquire</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ============ SERVICES ============ -->
-    <section id="services" class="gradient-shift text-sand">
-      <div class="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div class="mx-auto mb-16 max-w-2xl text-center">
-          <p class="reveal mb-3 text-xs font-500 uppercase tracking-luxe text-gold">What We Do</p>
-          <h2 class="reveal font-display text-4xl font-500 md:text-5xl" style="transition-delay:.06s">An Owner's Full Journey</h2>
-          <p class="reveal mt-4 text-sand/60" style="transition-delay:.12s">From first acquisition to final sale, every detail handled with the discretion the moment deserves.</p>
-        </div>
-        <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 md:grid-cols-2 lg:grid-cols-4">
-          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5">
-            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3M12 4v15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h3 class="mt-5 font-display text-2xl font-600">Sales &amp; Brokerage</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Confidential representation for buyers and sellers, backed by deep market intelligence and a global buyer network.</p>
-          </div>
-          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.08s">
-            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg>
-            <h3 class="mt-5 font-display text-2xl font-600">Charter</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Curated charter experiences across the Mediterranean, Caribbean, and beyond — itineraries designed around you.</p>
-          </div>
-          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.16s">
-            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h3 class="mt-5 font-display text-2xl font-600">Management</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Crew, maintenance, compliance, and accounting — comprehensive stewardship so ownership stays effortless.</p>
-          </div>
-          <div class="reveal group bg-ink/60 p-8 transition-colors duration-300 hover:bg-white/5" style="transition-delay:.24s">
-            <svg class="h-9 w-9 text-gold transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 20h16M6 20V9l6-4 6 4v11M10 20v-5h4v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h3 class="mt-5 font-display text-2xl font-600">New Construction</h3>
-            <p class="mt-3 text-sm font-300 leading-relaxed text-sand/65">Guidance from concept to launch with the world's premier shipyards, protecting your vision and your investment.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section id="about" class="mx-auto max-w-7xl px-6 py-24 md:py-32">
-      <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <div class="reveal from-left relative">
-          <img src="https://images.unsplash.com/photo-1542902093-d55926049754?auto=format&fit=crop&w=1000&q=80" alt="A yacht broker and clients reviewing plans on a sunlit deck" loading="lazy" class="aspect-[4/5] w-full rounded-2xl object-cover" />
-          <div class="float-slow absolute -bottom-6 -right-6 hidden rounded-2xl bg-gold p-8 text-ink shadow-2xl sm:block">
-            <p class="font-display text-4xl font-700">98%</p>
-            <p class="mt-1 max-w-[8rem] text-xs uppercase tracking-widest">Client referral rate</p>
-          </div>
-        </div>
-        <div class="reveal from-right">
-          <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Our Standard</p>
-          <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">Quiet Expertise, <span class="italic shimmer">Uncompromising</span> Results</h2>
-          <p class="mt-6 leading-relaxed text-sand/65">For nearly three decades, Luxury Yachts has represented the most discerning owners in the industry. We are not a marketplace — we are a trusted advisor, present at every signing, sea trial, and handover.</p>
-          <ul class="mt-8 space-y-4">
-            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Absolute discretion.</strong> Every transaction is private by default and protected by ironclad confidentiality.</span></li>
-            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Dedicated brokers.</strong> One advisor, end to end — no handoffs, no call centres.</span></li>
-            <li class="flex gap-4"><svg class="mt-0.5 h-6 w-6 flex-none text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="text-sand/75"><strong class="font-600 text-sand">Global reach.</strong> Offices in 14 ports across the Mediterranean, Americas, and Asia-Pacific.</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ TESTIMONIALS ============ -->
-    <section id="testimonials" class="gradient-shift">
-      <div class="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div class="mx-auto mb-14 max-w-2xl text-center">
-          <p class="reveal mb-3 text-xs font-500 uppercase tracking-luxe text-gold">In Their Words</p>
-          <h2 class="reveal font-display text-4xl font-500 md:text-5xl" style="transition-delay:.06s">Trusted by Owners Worldwide</h2>
-        </div>
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8">
-            <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-            </div>
-            <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"They sold our Benetti in six weeks at full asking. The process was seamless and entirely confidential."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">A. Castellano</span><span class="block text-sand/50">Owner, M/Y Aurelia</span></figcaption>
-          </figure>
-          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8" style="transition-delay:.1s">
-            <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-            </div>
-            <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"Our broker understood exactly what we wanted before we did. The new build came in on time and beyond expectation."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">R. &amp; M. Lindqvist</span><span class="block text-sand/50">Owners, M/Y Meridian</span></figcaption>
-          </figure>
-          <figure class="reveal card-lux rounded-2xl border border-white/10 bg-ink/60 p-8" style="transition-delay:.2s">
-            <div class="flex gap-1 text-gold" aria-label="Five out of five stars">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-            </div>
-            <blockquote class="mt-5 font-display text-xl font-500 leading-snug">"Truly white-glove. From sea trial to handover, every promise was kept. We would not work with anyone else."</blockquote>
-            <figcaption class="mt-6 text-sm"><span class="font-600">H. Nakamura</span><span class="block text-sand/50">Owner, S/Y Sirocco</span></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CONTACT ============ -->
-    <section id="contact" class="relative overflow-hidden bg-ink text-sand">
-      <div class="aurora" aria-hidden="true"><span class="a2"></span><span class="a3"></span></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/70"></div>
-      <div class="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 py-24 md:py-32 lg:grid-cols-2">
-        <div class="reveal from-left">
-          <p class="mb-3 text-xs font-500 uppercase tracking-luxe text-gold">Begin the Conversation</p>
-          <h2 class="font-display text-4xl font-500 leading-tight md:text-5xl">Speak With a Broker</h2>
-          <p class="mt-5 max-w-md leading-relaxed text-sand/70">Tell us what you are looking for, and a dedicated advisor will respond within one business day — discreetly, and without obligation.</p>
-          <div class="mt-10 space-y-5 text-sm">
-            <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 5h18v14H3zM3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg> brokers@luxuryyachts.example</p>
-            <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.5c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> +377 99 00 12 34</p>
-            <p class="flex items-center gap-3"><svg class="h-5 w-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg> Quai Antoine 1er, Monaco</p>
-          </div>
-        </div>
-        <form id="enquiry" class="reveal from-right rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur-md md:p-9" novalidate>
-          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div><label for="firstName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">First name</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Jean" /></div>
-            <div><label for="lastName" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Last name</label><input id="lastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Dupont" /></div>
-          </div>
-          <div class="mt-5"><label for="email" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Email</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="you@example.com" /></div>
-          <div class="mt-5"><label for="interest" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">I am interested in</label><select id="interest" name="interest" class="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand transition-colors focus:border-gold focus:outline-none"><option class="text-ink">Buying a yacht</option><option class="text-ink">Selling my yacht</option><option class="text-ink">Chartering</option><option class="text-ink">New construction</option><option class="text-ink">Management</option></select></div>
-          <div class="mt-5"><label for="message" class="mb-2 block text-xs font-500 uppercase tracking-wider text-sand/70">Message</label><textarea id="message" name="message" rows="4" class="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sand placeholder-sand/40 transition-colors focus:border-gold focus:outline-none" placeholder="Tell us about the vessel or experience you have in mind…"></textarea></div>
-          <button type="submit" class="btn-sheen mt-7 w-full cursor-pointer rounded-full bg-gold py-4 text-sm font-600 text-ink transition-colors duration-200 hover:bg-goldlight">Send Enquiry</button>
-          <p id="formNote" class="mt-4 hidden text-center text-sm text-gold" role="status"></p>
-        </form>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="bg-stone900 text-sand/70">
-    <div class="mx-auto max-w-7xl px-6 py-14">
-      <div class="flex flex-col items-center justify-between gap-8 border-b border-white/10 pb-10 md:flex-row">
-        <a href="#top" class="flex items-center gap-2.5 text-sand">
-          <svg class="h-7 w-7 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 16l9-12 9 12" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 16c2.5 2 6 3 9 3s6.5-1 9-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="font-display text-2xl font-600">Luxury <span class="text-gold">Yachts</span></span>
-        </a>
-        <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
-          <li><a class="nav-link transition-colors hover:text-gold" href="#fleet">Fleet</a></li>
-          <li><a class="nav-link transition-colors hover:text-gold" href="#services">Services</a></li>
-          <li><a class="nav-link transition-colors hover:text-gold" href="#about">About</a></li>
-          <li><a class="nav-link transition-colors hover:text-gold" href="#contact">Contact</a></li>
-        </ul>
-      </div>
-      <div class="flex flex-col items-center justify-between gap-4 pt-8 text-xs md:flex-row">
-        <p>© <span id="year"></span> Luxury Yachts International. All rights reserved.</p>
-        <p class="text-sand/50">Monaco · Fort Lauderdale · Palma · Auckland</p>
+          <blockquote>"Truly white-glove. From sea trial to handover, every promise was kept. We would not work with anyone else."</blockquote>
+          <figcaption class="who"><b>H. Nakamura</b><span>Owner, S/Y Sirocco</span></figcaption>
+        </figure>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <!-- ============== CONTACT ============== -->
+  <section class="section-pad" id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <div class="contact-inner">
+          <div class="contact-info">
+            <p class="eyebrow">Begin the Conversation</p>
+            <h2 class="head-xl" style="margin-top:12px">Speak With a Broker</h2>
+            <p class="muted" style="margin-top:16px;max-width:380px">Tell us what you are looking for, and a dedicated advisor will respond within one business day — discreetly, and without obligation.</p>
+            <div style="margin-top:26px">
+              <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h18v14H3zM3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg> brokers@luxuryyachts.example</p>
+              <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.4-1.2a2 2 0 012.1-.5c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg> +377 99 00 12 34</p>
+              <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg> Quai Antoine 1er, Monaco</p>
+            </div>
+          </div>
+          <form id="form" novalidate>
+            <div class="two">
+              <div class="field"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" required placeholder="Jean"></div>
+              <div class="field"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" required placeholder="Dupont"></div>
+            </div>
+            <div class="field"><label for="em">Email</label><input id="em" type="email" name="em" autocomplete="email" required placeholder="you@example.com"></div>
+            <div class="field"><label for="it">I am interested in</label>
+              <select id="it" name="it"><option>Buying a yacht</option><option>Selling my yacht</option><option>Chartering</option><option>New construction</option><option>Management</option></select>
+            </div>
+            <div class="field"><label for="ms">Message</label><textarea id="ms" name="ms" rows="4" placeholder="Tell us about the vessel or experience you have in mind…"></textarea></div>
+            <button type="submit" class="btn cta glow-gold" style="margin-top:22px;width:100%;justify-content:center">Send Enquiry</button>
+            <p id="note" role="status">Thank you — a broker will contact you within one business day.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('hidden') === false;
-      menuBtn.setAttribute('aria-expanded', String(open));
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 16l9-12 9 12M3 16c2.5 2 6 3 9 3s6.5-1 9-3" stroke-linecap="round" stroke-linejoin="round"/></svg> Luxury <b>Yachts</b></a>
+    <p class="muted">© <span id="yr"></span> Luxury Yachts International · Monaco · Fort Lauderdale · Palma · Auckland</p>
+  </div>
+</footer>
+
+<!-- GSAP from CDN (only external library) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = typeof window.gsap !== 'undefined';
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ----- mobile menu ----- */
+  const menuBtn = document.getElementById('menuBtn');
+  menuBtn && menuBtn.addEventListener('click', () => {
+    const open = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!open));
+    document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+  });
+
+  /* ----- nav + scroll progress ----- */
+  const nav = document.getElementById('nav');
+  const prog = document.getElementById('progress');
+  const onScroll = () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 30);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h > 0 ? (y/h)*100 : 0) + '%';
+  };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ----- cursor glow ----- */
+  const glow = document.getElementById('cursor-glow');
+  const fine = window.matchMedia('(pointer:fine)').matches;
+  if (glow && fine && !reduce) {
+    let tx=innerWidth/2, ty=innerHeight/2, cx=tx, cy=ty;
+    addEventListener('mousemove', e => { tx=e.clientX; ty=e.clientY; glow.style.opacity=1; });
+    (function loop(){ cx+=(tx-cx)*.15; cy+=(ty-cy)*.15; glow.style.left=cx+'px'; glow.style.top=cy+'px'; requestAnimationFrame(loop); })();
+  }
+
+  /* ----- hero shape parallax ----- */
+  const shapes = [...document.querySelectorAll('.shape')];
+  if (shapes.length && fine && !reduce) {
+    addEventListener('mousemove', e => {
+      const dx = (e.clientX/innerWidth - .5), dy = (e.clientY/innerHeight - .5);
+      shapes.forEach(s => {
+        const d = parseFloat(s.dataset.depth||'0.08') * 100;
+        s.style.transform = `translate(${dx*d}px, ${dy*d}px)`;
+      });
     });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false');
-    }));
+  }
 
-    // Navbar + scroll progress
-    const nav = document.querySelector('#nav nav');
-    const progress = document.getElementById('progress');
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y > 40) { nav.classList.add('bg-ink/80','shadow-lg'); nav.classList.remove('bg-ink/30'); }
-      else { nav.classList.add('bg-ink/30'); nav.classList.remove('bg-ink/80','shadow-lg'); }
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+  /* ----- count-up helper ----- */
+  function countUp(el){
+    const target = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.dec||'0',10);
+    const pre = el.dataset.prefix||'', suf = el.dataset.suffix||'';
+    const set = v => el.textContent = pre + v.toFixed(dec) + suf;
+    if (reduce){ set(target); return; }
+    const dur=1500, t0=performance.now();
+    (function step(now){
+      const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
+      set(target*e); if(p<1) requestAnimationFrame(step); else set(target);
+    })(performance.now());
+  }
 
-    // Scroll reveal
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  /* ----- contact form ----- */
+  const form = document.getElementById('form'), note = document.getElementById('note');
+  form && form.addEventListener('submit', e => {
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    note.style.display='block'; form.reset();
+  });
 
-    // Count-up stats
-    const fmt = (v, el) => (el.dataset.prefix || '') + (Number.isInteger(v) ? v : v.toFixed(1)) + (el.dataset.suffix || '');
-    const countUp = (el) => {
-      const target = parseFloat(el.dataset.count); const dur = 1400; const start = performance.now();
-      const step = (now) => {
-        const p = Math.min((now - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = fmt(target * eased, el);
-        if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(target, el);
-      };
-      requestAnimationFrame(step);
-    };
-    const statIo = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { if (reduceMotion) e.target.textContent = fmt(parseFloat(e.target.dataset.count), e.target); else countUp(e.target); statIo.unobserve(e.target); } });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('[data-count]').forEach(el => statIo.observe(el));
+  /* ============ ANIMATIONS ============ */
+  if (hasGSAP && !reduce) {
+    gsap.registerPlugin(ScrollTrigger);
 
-    // Contact form (demo)
-    const form = document.getElementById('enquiry');
-    const note = document.getElementById('formNote');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      note.textContent = 'Thank you — a broker will contact you within one business day.';
-      note.classList.remove('hidden'); form.reset();
+    /* hero intro */
+    gsap.from('[data-hero]', {y:40, opacity:0, duration:1, ease:'power3.out', stagger:.12, delay:.15});
+    gsap.from('.shape', {scale:.4, opacity:0, duration:1.4, ease:'power3.out', stagger:.12, delay:.4});
+
+    /* generic reveals */
+    gsap.utils.toArray('.reveal').forEach(el=>{
+      gsap.from(el,{y:46,opacity:0,duration:.9,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 86%'}});
     });
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+    /* service cards: flip up */
+    gsap.utils.toArray('.flip').forEach((el,i)=>{
+      gsap.from(el,{y:70,opacity:0,rotateX:-35,transformOrigin:'top center',duration:.9,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 88%'},delay:(i%4)*.08});
+    });
 
-    // ---------- Hero particle field ----------
-    (function particles() {
-      if (reduceMotion) return;
-      const canvas = document.getElementById('particles');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let w, h, dots, raf;
-      const DPR = Math.min(window.devicePixelRatio || 1, 2);
-      const COUNT = () => Math.min(90, Math.floor(window.innerWidth / 16));
+    /* testimonials: rise */
+    gsap.utils.toArray('.rise').forEach((el,i)=>{
+      gsap.from(el,{y:80,opacity:0,duration:1,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 88%'},delay:i*.1});
+    });
 
-      function resize() {
-        w = canvas.clientWidth; h = canvas.clientHeight;
-        canvas.width = w * DPR; canvas.height = h * DPR;
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      }
-      function make() {
-        dots = Array.from({ length: COUNT() }, () => ({
-          x: Math.random() * w, y: Math.random() * h,
-          r: Math.random() * 1.8 + 0.4,
-          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
-          a: Math.random() * 0.5 + 0.2,
-        }));
-      }
-      function tick() {
-        ctx.clearRect(0, 0, w, h);
-        for (const d of dots) {
-          d.x += d.vx; d.y += d.vy;
-          if (d.x < 0 || d.x > w) d.vx *= -1;
-          if (d.y < 0 || d.y > h) d.vy *= -1;
-          ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(227,179,65,${d.a})`; ctx.fill();
+    /* stats count-up on enter */
+    gsap.utils.toArray('[data-count]').forEach(el=>{
+      ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:()=>countUp(el)});
+    });
+
+    /* fleet: pinned horizontal scroll (desktop only) */
+    const track = document.querySelector('.fleet-track');
+    const section = document.querySelector('.fleet-section');
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 861px)', () => {
+      document.body.classList.add('h-scroll');
+      const amount = () => Math.max(0, track.scrollWidth - window.innerWidth + 48);
+      const tween = gsap.to(track, {
+        x: () => -amount(), ease:'none',
+        scrollTrigger:{
+          trigger:section, start:'top top', end:()=> '+=' + amount(),
+          pin:true, scrub:1, invalidateOnRefresh:true, anticipatePin:1
         }
-        // link nearby dots
-        for (let i = 0; i < dots.length; i++) {
-          for (let j = i + 1; j < dots.length; j++) {
-            const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
-            const dist = dx * dx + dy * dy;
-            if (dist < 9000) {
-              ctx.beginPath(); ctx.moveTo(dots[i].x, dots[i].y); ctx.lineTo(dots[j].x, dots[j].y);
-              ctx.strokeStyle = `rgba(202,138,4,${0.12 * (1 - dist / 9000)})`; ctx.lineWidth = 0.6; ctx.stroke();
-            }
-          }
-        }
-        raf = requestAnimationFrame(tick);
-      }
-      function startStop() {
-        const hero = document.getElementById('top');
-        const onScreen = hero.getBoundingClientRect().bottom > 0;
-        if (onScreen && !raf) raf = requestAnimationFrame(tick);
-        else if (!onScreen && raf) { cancelAnimationFrame(raf); raf = null; }
-      }
-      resize(); make(); raf = requestAnimationFrame(tick);
-      window.addEventListener('resize', () => { resize(); make(); });
-      window.addEventListener('scroll', startStop, { passive: true });
-    })();
-  </script>
+      });
+      return () => { document.body.classList.remove('h-scroll'); tween.scrollTrigger && tween.scrollTrigger.kill(); tween.kill(); gsap.set(track,{clearProps:'x'}); };
+    });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  } else {
+    /* No GSAP or reduced motion: count up via IntersectionObserver, content fully visible */
+    const io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); io.unobserve(e.target);} }),{threshold:.5});
+    document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+  }
+})();
+</script>
 </body>
 </html>

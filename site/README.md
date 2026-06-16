@@ -1,40 +1,33 @@
 # Luxury Yachts — Website
 
-A single-page marketing site for **Luxury Yachts**, a premium yacht brokerage and sales company.
+A world-class single-page marketing site for **Luxury Yachts**, a premium superyacht brokerage. Dark, cinematic, premium — inspired by top-tier automotive and Web3 brand aesthetics.
 
-## Design
+## Stack
 
-Design choices were generated with the `ui-ux-pro-max` skill:
+- **Vanilla HTML / CSS / JS** — single self-contained `index.html`, no build step.
+- **GSAP + ScrollTrigger** (the only external library) loaded from CDN for scroll-driven animation.
+- Fonts: Space Grotesk (display) + Inter (body) + Cormorant italic (accents).
 
-- **Palette:** premium black + gold (`#0C0A09` ink, `#1C1917` stone, `#CA8A04` gold, `#FAFAF9` sand)
-- **Typography:** Cormorant (display) + Montserrat (body) — luxury/high-end pairing
-- **Structure:** Enterprise Gateway landing pattern — hero, stats, fleet, services, about, testimonials, contact
+## Highlights
 
-## Sections
+- **Hero:** full-screen animated aurora/gradient-mesh background (navy · purple · gold), gradient display type, and floating 3D geometric shapes (rotating cube, rings, triangle) that react to the mouse with parallax.
+- **Animations:** GSAP scroll reveals on every section, service cards that flip up, testimonials that rise, stat numbers that count up on entry, and a **pinned horizontal-scroll** fleet section (desktop).
+- **Visual effects:** glassmorphism cards (blur + transparency), neon gold glow, an **animated gradient-border CTA**, a **cursor glow** that follows the mouse, scroll-progress bar, film grain + vignette.
+- **Accessible & resilient:** full `prefers-reduced-motion` fallback (animations off, content visible, count-up via IntersectionObserver), keyboard focus rings, semantic landmarks, alt text, labelled form fields. Degrades gracefully if the GSAP CDN is unavailable.
 
-1. Floating glass navbar (solidifies on scroll, mobile menu)
-2. Full-screen hero with CTAs
-3. Stats bar
-4. Featured fleet (3 listing cards with specs and pricing)
-5. Services (sales, charter, management, new construction)
-6. About / why-us with credibility points
-7. Client testimonials
-8. Contact form (client-side validation, demo only — no backend)
-9. Footer
-
-## Run
-
-It is a static, self-contained file. Open directly or serve locally:
+## Run locally
 
 ```bash
 cd site
-python3 -m http.server 8000
-# visit http://localhost:8000
+python3 -m http.server 8000   # visit http://localhost:8000
 ```
+
+## Deploy
+
+Deploy-ready for GitHub Pages — it's a static file. The repo's GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) publishes `site/` automatically on push.
 
 ## Notes
 
-- **Tailwind** is loaded via CDN (`cdn.tailwindcss.com`) for zero build setup. For production, install Tailwind and purge unused classes.
-- **Images** are pulled from Unsplash via hotlink for the demo. Replace `images.unsplash.com/...` URLs with your own licensed assets before launch.
-- **Contact form** is front-end only; wire the `submit` handler in `index.html` to your CRM/email backend.
-- Accessibility: semantic landmarks, alt text, form labels, visible focus rings, and `prefers-reduced-motion` support are all included.
+- Yacht/ocean imagery is hotlinked from Unsplash for the demo — replace with licensed assets before launch.
+- The contact form is front-end only; wire its `submit` handler to your CRM/email backend.
+- The animated gradient-border CTA uses the CSS `@property` API for smooth rotation (supported in modern Chromium/Safari; older browsers fall back to a static gradient ring).
