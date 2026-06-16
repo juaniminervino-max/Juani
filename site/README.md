@@ -5,15 +5,24 @@ A world-class single-page marketing site for **Luxury Yachts**, a premium supery
 ## Stack
 
 - **Vanilla HTML / CSS / JS** — single self-contained `index.html`, no build step.
-- **GSAP + ScrollTrigger** (the only external library) loaded from CDN for scroll-driven animation.
+- **CDN libraries only:** **Three.js** (live 3D), **GSAP + ScrollTrigger** (scroll animation), **Lenis** (smooth scroll).
 - Fonts: Space Grotesk (display) + Inter (body) + Cormorant italic (accents).
 
 ## Highlights
 
-- **Hero:** full-screen animated aurora/gradient-mesh background (navy · purple · gold), gradient display type, and floating 3D geometric shapes (rotating cube, rings, triangle) that react to the mouse with parallax.
-- **Animations:** GSAP scroll reveals on every section, service cards that flip up, testimonials that rise, stat numbers that count up on entry, and a **pinned horizontal-scroll** fleet section (desktop).
-- **Visual effects:** glassmorphism cards (blur + transparency), neon gold glow, an **animated gradient-border CTA**, a **cursor glow** that follows the mouse, scroll-progress bar, film grain + vignette.
-- **Accessible & resilient:** full `prefers-reduced-motion` fallback (animations off, content visible, count-up via IntersectionObserver), keyboard focus rings, semantic landmarks, alt text, labelled form fields. Degrades gracefully if the GSAP CDN is unavailable.
+- **3D ocean hero:** a live Three.js water surface — dark navy waves displaced in real time with a moving gold point-light for travelling reflections, plus floating geometric shapes with mouse parallax.
+- **Scroll-driven 3D:** a pinned section where a wireframe yacht model rotates and scales while the camera orbits it, all driven by ScrollTrigger progress.
+- **Depth parallax:** each section layers 3 blurred colour fields that move at different speeds on scroll for a real depth illusion.
+- **3D flip cards:** fleet cards do a full 3D `rotateY` flip on hover/focus, revealing full specs on the back.
+- **Magnetic buttons:** primary CTAs pull toward the cursor within an ~80px radius and spring back on exit.
+- **Smooth scroll:** Lenis replaces native scroll, synced to GSAP's ticker and ScrollTrigger.
+- **Plus:** glassmorphism, neon gold glow, animated gradient-border CTA, cursor glow, scroll-progress bar, count-up stats, grain + vignette.
+
+## Accessible & resilient
+
+- Full `prefers-reduced-motion` fallback: 3D/animation disabled, Lenis off, flip cards stack to show specs, count-up resolves instantly.
+- **WebGL feature-detected** — if unavailable, the hero falls back to a gradient and the 3D section is hidden; the page still works with no GSAP/Three/Lenis (graceful degradation).
+- Keyboard focus rings, focusable flip cards, semantic landmarks, alt text, labelled form fields.
 
 ## Run locally
 
