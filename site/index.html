@@ -318,6 +318,12 @@
     .card--wide .card__foot { margin-top: auto; padding-top: 1.4rem; }
   }
 
+  /* ---- Product card 3D mini-scenes ---- */
+  .card__art { position: relative; }
+  .card__art canvas.mini { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+  .card__art canvas.mini:active { cursor: grabbing; }
+  .card__art.has-3d > svg { opacity: 0; }
+
   /* ============================================================
      Full-screen showcase — NEXUS 15 Pro
      ============================================================ */
@@ -702,7 +708,7 @@
       <div class="bento">
         <article class="card card--feat reveal">
           <span class="card__tag">Flagship phone</span>
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-phone"/></svg></div>
+          <div class="card__art" data-model="phone"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-phone"/></svg></div>
           <h3 class="card__name">NEXUS 15 Pro</h3>
           <p class="card__desc">Titanium. Telephoto. A18 Pro silicon that never breaks a sweat.</p>
           <div class="chips"><span>6.3″ ProMotion</span><span>A18 Pro</span><span>48MP fusion</span><span>Titanium</span></div>
@@ -713,7 +719,7 @@
         </article>
 
         <article class="card card--lap card--wide reveal" style="--d:.06s">
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-laptop"/></svg></div>
+          <div class="card__art" data-model="laptop"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-laptop"/></svg></div>
           <span class="card__tag">Laptop</span>
           <h3 class="card__name">NEXUS Book Pro</h3>
           <p class="card__desc">Desktop-class power, in a bag that forgets it's there.</p>
@@ -722,7 +728,7 @@
 
         <article class="card card--pods reveal" style="--d:.12s">
           <span class="card__tag">Audio</span>
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-airpods"/></svg></div>
+          <div class="card__art" data-model="airpods"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-airpods"/></svg></div>
           <h3 class="card__name">Pods Ultra</h3>
           <p class="card__desc">Silence, on demand.</p>
           <div class="card__foot"><span class="price">$449</span><button class="btn" data-add="NEXUS Pods Ultra">Add</button></div>
@@ -730,7 +736,7 @@
 
         <article class="card card--ipad card--tall reveal" style="--d:.06s">
           <span class="card__tag">Tablet</span>
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-ipad"/></svg></div>
+          <div class="card__art" data-model="ipad"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-ipad"/></svg></div>
           <h3 class="card__name">NEXUS Pad Air</h3>
           <p class="card__desc">A canvas for everything. Impossibly light, endlessly capable.</p>
           <div class="card__foot"><span class="price">$799</span><button class="btn" data-add="NEXUS Pad Air">Add to cart</button></div>
@@ -738,14 +744,14 @@
 
         <article class="card card--watch reveal" style="--d:.12s">
           <span class="card__tag">Watch</span>
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-watch"/></svg></div>
+          <div class="card__art" data-model="watch"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-watch"/></svg></div>
           <h3 class="card__name">Watch S9</h3>
           <p class="card__desc">Health, in focus.</p>
           <div class="card__foot"><span class="price">$529</span><button class="btn" data-add="NEXUS Watch S9">Add</button></div>
         </article>
 
         <article class="card card--spkr card--wide reveal" style="--d:.18s">
-          <div class="card__art"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-speaker"/></svg></div>
+          <div class="card__art" data-model="speaker"><svg viewBox="0 0 240 240" aria-hidden="true"><use href="#pi-speaker"/></svg></div>
           <span class="card__tag">Speaker</span>
           <h3 class="card__name">NEXUS Sound</h3>
           <p class="card__desc">Room-filling spatial audio that disappears into the decor.</p>
@@ -975,23 +981,39 @@
   const fillFront = new THREE.PointLight(0x3a55a0, 0.3, 40); fillFront.position.set(-1.5, -2, 6); scene.add(fillFront);
   const kicker = new THREE.DirectionalLight(0xffca9a, 0.22); kicker.position.set(6, -1, -2); scene.add(kicker);
 
-  /* studio environment → metallic specular reflections */
+  /* warm studio HDRI-style environment (cubemap → PMREM) */
   (function buildEnvironment() {
-    const c = document.createElement('canvas'); c.width = 512; c.height = 256;
-    const x = c.getContext('2d');
-    const g = x.createLinearGradient(0, 0, 0, 256);
-    g.addColorStop(0, '#e8f0ff'); g.addColorStop(0.45, '#3b4d7a'); g.addColorStop(1, '#05070d');
-    x.fillStyle = g; x.fillRect(0, 0, 512, 256);
-    x.fillStyle = 'rgba(255,255,255,0.92)'; x.fillRect(96, 30, 46, 150);
-    x.fillStyle = 'rgba(150,185,255,0.55)'; x.fillRect(330, 50, 28, 130);
-    x.fillStyle = 'rgba(255,210,140,0.5)'; x.fillRect(430, 70, 20, 110);
-    const tex = new THREE.CanvasTexture(c);
-    tex.mapping = THREE.EquirectangularReflectionMapping;
+    function face(blobs) {
+      const c = document.createElement('canvas'); c.width = 256; c.height = 256;
+      const x = c.getContext('2d');
+      const g = x.createLinearGradient(0, 0, 0, 256);
+      g.addColorStop(0, '#2a2620'); g.addColorStop(0.5, '#15130f'); g.addColorStop(1, '#070605');
+      x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+      blobs.forEach((b) => {
+        const rg = x.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+        rg.addColorStop(0, b.c); rg.addColorStop(1, 'rgba(0,0,0,0)');
+        x.fillStyle = rg; x.fillRect(0, 0, 256, 256);
+      });
+      return c;
+    }
+    const warm = 'rgba(255,236,200,0.95)', cool = 'rgba(200,220,255,0.6)', soft = 'rgba(255,210,150,0.7)';
+    const cube = new THREE.CubeTexture([
+      face([{ x: 70, y: 90, r: 120, c: warm }, { x: 200, y: 200, r: 90, c: soft }]),
+      face([{ x: 180, y: 80, r: 130, c: cool }]),
+      face([{ x: 128, y: 128, r: 175, c: warm }]),
+      face([{ x: 128, y: 60, r: 90, c: soft }]),
+      face([{ x: 90, y: 110, r: 120, c: warm }, { x: 210, y: 60, r: 70, c: cool }]),
+      face([{ x: 150, y: 150, r: 120, c: soft }])
+    ]);
+    cube.needsUpdate = true;
     try {
       const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromEquirectangular(tex).texture;
+      if (pmrem.compileCubemapShader) pmrem.compileCubemapShader();
+      scene.environment = pmrem.fromCubemap(cube).texture;
       pmrem.dispose();
-    } catch (e) { scene.environment = tex; }
+    } catch (e) {
+      cube.mapping = THREE.CubeReflectionMapping; scene.environment = cube;
+    }
   })();
 
   function glassSheenTex() {
@@ -1011,23 +1033,46 @@
     ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
   }
   function makeScreen() {
-    const c = document.createElement('canvas'); c.width = 512; c.height = 1040;
+    const c = document.createElement('canvas'); c.width = 540; c.height = 1140;
     const x = c.getContext('2d');
-    const g = x.createLinearGradient(0, 0, 0, 1040);
-    g.addColorStop(0, '#16234a'); g.addColorStop(0.55, '#0f1733'); g.addColorStop(1, '#231a52');
-    x.fillStyle = g; x.fillRect(0, 0, 512, 1040);
-    x.fillStyle = 'rgba(255,255,255,0.92)';
-    x.font = '600 84px "Sora", sans-serif'; x.textAlign = 'center';
-    x.fillText('9:41', 256, 150);
-    x.font = '700 150px "Sora", sans-serif';
-    x.fillStyle = 'rgba(220,232,255,0.96)'; x.fillText('N', 256, 600);
-    x.globalAlpha = 0.5; x.font = '500 40px "Hanken Grotesk", sans-serif';
-    x.fillText('NEXUS  15  PRO', 256, 690); x.globalAlpha = 1;
-    for (let i = 0; i < 8; i++) {
-      x.fillStyle = `hsl(${250 + i * 12}, 70%, ${60 - i * 2}%)`;
-      const px = 86 + (i % 4) * 100, py = 800 + Math.floor(i / 4) * 100;
-      roundRect(x, px, py, 64, 64, 16); x.fill();
-    }
+    // blurred wallpaper gradient
+    x.save();
+    const g = x.createLinearGradient(0, 0, 540, 1140);
+    g.addColorStop(0, '#3b2a6b'); g.addColorStop(0.5, '#1a2f7a'); g.addColorStop(1, '#0a1840');
+    x.fillStyle = g; x.fillRect(0, 0, 540, 1140);
+    if ('filter' in x) x.filter = 'blur(40px)';
+    [['#7a5bff', 150, 280, 230], ['#2bb8ff', 400, 720, 250], ['#ff7ab8', 120, 960, 190]].forEach(([col, bx, by, r]) => {
+      const rg = x.createRadialGradient(bx, by, 0, bx, by, r);
+      rg.addColorStop(0, col); rg.addColorStop(1, 'rgba(0,0,0,0)');
+      x.fillStyle = rg; x.beginPath(); x.arc(bx, by, r, 0, Math.PI * 2); x.fill();
+    });
+    x.restore();
+    x.fillStyle = 'rgba(8,10,24,0.28)'; x.fillRect(0, 0, 540, 1140);
+
+    // status bar
+    x.textAlign = 'left'; x.fillStyle = 'rgba(255,255,255,0.95)';
+    x.font = '600 30px "Sora", sans-serif'; x.fillText('9:41', 36, 58);
+    for (let i = 0; i < 4; i++) { const h = 10 + i * 7; x.fillRect(384 + i * 13, 56 - h, 9, h); }
+    x.strokeStyle = 'rgba(255,255,255,0.95)'; x.lineWidth = 5;
+    [22, 15, 8].forEach((r) => { x.beginPath(); x.arc(454, 58, r, Math.PI * 1.25, Math.PI * 1.75); x.stroke(); });
+    x.beginPath(); x.arc(454, 58, 2.5, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = 'rgba(255,255,255,0.85)'; x.lineWidth = 4;
+    roundRect(x, 478, 36, 44, 22, 6); x.stroke();
+    x.fillStyle = 'rgba(255,255,255,0.95)'; x.fillRect(524, 42, 5, 10);
+    x.fillStyle = 'rgba(120,235,160,0.95)'; roundRect(x, 482, 40, 32, 14, 3); x.fill();
+
+    // big clock
+    x.textAlign = 'center';
+    x.fillStyle = 'rgba(255,255,255,0.55)'; x.font = '500 34px "Hanken Grotesk", sans-serif';
+    x.fillText('Tuesday, June 17', 270, 300);
+    x.fillStyle = 'rgba(255,255,255,0.98)'; x.font = '300 188px "Sora", sans-serif';
+    x.fillText('9:41', 270, 472);
+    x.fillStyle = 'rgba(255,255,255,0.88)'; x.font = '700 92px "Sora", sans-serif';
+    x.fillText('N', 270, 770);
+    x.fillStyle = 'rgba(255,255,255,0.38)'; x.font = '500 30px "Hanken Grotesk", sans-serif';
+    x.fillText('NEXUS 15 Pro', 270, 824);
+    x.fillStyle = 'rgba(255,255,255,0.7)'; roundRect(x, 210, 1096, 120, 9, 4.5); x.fill();
+
     const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
   }
 
@@ -1049,12 +1094,12 @@
     depth: 0.30, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 5, curveSegments: 36
   });
   bodyGeo.center();
-  const titanium = new THREE.MeshStandardMaterial({ color: 0x3b4358, metalness: 1.0, roughness: 0.3, envMapIntensity: 1.25 });
+  const titanium = new THREE.MeshPhysicalMaterial({ color: 0x8895ad, metalness: 0.95, roughness: 0.05, clearcoat: 1.0, clearcoatRoughness: 0.06, envMapIntensity: 1.5 });
   phone.add(new THREE.Mesh(bodyGeo, titanium));
 
   const backGlass = new THREE.Mesh(
     new THREE.ShapeGeometry(roundedRectShape(1.92, 4.04, 0.36)),
-    new THREE.MeshStandardMaterial({ color: 0x0e1320, metalness: 0.55, roughness: 0.16, envMapIntensity: 1.1 })
+    new THREE.MeshPhysicalMaterial({ color: 0x0c1020, metalness: 0.5, roughness: 0.12, clearcoat: 1.0, clearcoatRoughness: 0.08, reflectivity: 0.6, envMapIntensity: 0.9 })
   );
   backGlass.position.z = BACK - 0.001; backGlass.rotation.y = Math.PI; phone.add(backGlass);
 
@@ -1078,7 +1123,7 @@
   island.position.set(0, 1.6, FRONT); phone.add(island);
   const camDot = new THREE.Mesh(
     new THREE.CircleGeometry(0.04, 24),
-    new THREE.MeshStandardMaterial({ color: 0x0a1736, metalness: 0.7, roughness: 0.1, envMapIntensity: 1.4 })
+    new THREE.MeshStandardMaterial({ color: 0x0a1736, emissive: 0x2a6bff, emissiveIntensity: 0.3, metalness: 0.7, roughness: 0.1, envMapIntensity: 1.4 })
   );
   camDot.position.set(0.21, 1.6, FRONT + 0.002); phone.add(camDot);
 
@@ -1151,14 +1196,12 @@
   scene.add(beams);
 
   /* ---- Mouse tilt ---- */
-  const target = { x: -0.5, y: 0.1 };
-  const current = { x: -0.5, y: 0.1 };
+  const target = { x: 0, y: 0 };
+  const current = { x: 0, y: 0 };
   if (!reduce) {
     window.addEventListener('pointermove', (e) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      target.x = -0.5 + nx * 0.5;
-      target.y = 0.1 + ny * 0.35;
+      target.x = (e.clientX / window.innerWidth) * 2 - 1;   // -1..1
+      target.y = (e.clientY / window.innerHeight) * 2 - 1;  // -1..1
     }, { passive: true });
   }
 
@@ -1186,18 +1229,27 @@
     const fly = smooth((p - 0.1) / 0.7);
     const baseY = reduce ? 0 : Math.sin(t * 0.012) * 0.12;
     const narrow = window.innerWidth < 760;
+    const TILT = 0.26; // ~15 degrees max parallax
+    const breath = reduce ? 1 : 1.01 + 0.01 * Math.sin(t * (Math.PI * 2 / 240)); // 1.00→1.02→1.00 over ~4s
 
     if (narrow) {
-      phone.position.x = current.x * 0.12 * (1 - fly);
+      phone.position.x = current.x * 0.1 * (1 - fly);
       phone.position.y = baseY + fly * 1.7;
-      const s = 1 - fly * 0.26; phone.scale.set(s, s, s);
+      const s = (1 - fly * 0.26) * breath; phone.scale.set(s, s, s);
     } else {
       phone.position.x = -2.35 * fly + current.x * 0.12 * (1 - fly);
       phone.position.y = baseY;
-      phone.scale.set(1, 1, 1);
+      phone.scale.set(breath, breath, breath);
     }
-    phone.rotation.y = current.x * (1 - fly) + (reduce ? 0 : t * 0.0026) + fly * 0.55;
-    phone.rotation.x = current.y * (1 - fly * 0.5);
+    phone.rotation.y = -0.35 + fly * 0.6 + current.x * TILT * (1 - fly);
+    phone.rotation.x = 0.04 + current.y * TILT * (1 - fly);
+
+    // Dynamic Island subtle pulse
+    if (!reduce) {
+      const pulse = 0.5 + 0.5 * Math.sin(t * 0.06);
+      island.scale.x = 1 + 0.035 * pulse;
+      camDot.material.emissiveIntensity = 0.22 + 0.5 * pulse;
+    }
 
     if (!reduce) {
       particles.rotation.y = t * 0.0006; particles.rotation.x = t * 0.0002;
@@ -1217,6 +1269,211 @@
       renderer.render(scene, camera);
     });
   }
+})();
+</script>
+
+<!-- ===================== PRODUCT CARD 3D MINI-SCENES ===================== -->
+<script>
+(function () {
+  if (typeof THREE === 'undefined') return; // SVG fallback stays
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function roundedRectShape(w, h, r) {
+    const s = new THREE.Shape(); const x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y);
+    s.lineTo(x + w - r, y); s.absarc(x + w - r, y + r, r, -Math.PI / 2, 0);
+    s.lineTo(x + w, y + h - r); s.absarc(x + w - r, y + h - r, r, 0, Math.PI / 2);
+    s.lineTo(x + r, y + h); s.absarc(x + r, y + h - r, r, Math.PI / 2, Math.PI);
+    s.lineTo(x, y + r); s.absarc(x + r, y + r, r, Math.PI, Math.PI * 1.5);
+    return s;
+  }
+  function tex(c) { const t = new THREE.CanvasTexture(c); t.anisotropy = 2; return t; }
+  function shadowTexture() {
+    const c = document.createElement('canvas'); c.width = 128; c.height = 128; const x = c.getContext('2d');
+    const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, 'rgba(0,0,0,0.5)'); g.addColorStop(0.55, 'rgba(0,0,0,0.22)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c);
+  }
+  const std = (color, metal, rough) => new THREE.MeshStandardMaterial({ color, metalness: metal, roughness: rough });
+  const screenMat = (c) => new THREE.MeshBasicMaterial({ map: tex(c) });
+
+  /* ---- small screen textures ---- */
+  function phoneScreen() {
+    const c = document.createElement('canvas'); c.width = 200; c.height = 420; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 200, 420); g.addColorStop(0, '#3a2a6a'); g.addColorStop(0.5, '#23357f'); g.addColorStop(1, '#0c1740');
+    x.fillStyle = g; x.fillRect(0, 0, 200, 420);
+    x.textAlign = 'center'; x.fillStyle = 'rgba(255,255,255,0.95)'; x.font = '300 68px "Sora",sans-serif'; x.fillText('9:41', 100, 150);
+    x.font = '500 15px "Hanken Grotesk",sans-serif'; x.fillStyle = 'rgba(255,255,255,0.55)'; x.fillText('Tue, Jun 17', 100, 178);
+    x.fillStyle = 'rgba(255,255,255,0.14)'; rr(x, 30, 358, 140, 42, 18); x.fill();
+    ['#ff6b6b', '#4dd4ac', '#5b8cff', '#ffd166'].forEach((col, i) => { x.fillStyle = col; rr(x, 42 + i * 32, 366, 26, 26, 8); x.fill(); });
+    return c;
+  }
+  function laptopScreen() {
+    const c = document.createElement('canvas'); c.width = 360; c.height = 225; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, 225); g.addColorStop(0, '#2a4d8f'); g.addColorStop(1, '#0c1a44'); x.fillStyle = g; x.fillRect(0, 0, 360, 225);
+    x.fillStyle = 'rgba(10,16,40,0.7)'; x.fillRect(0, 0, 360, 18);
+    x.fillStyle = 'rgba(255,255,255,0.16)'; rr(x, 118, 196, 124, 22, 11); x.fill();
+    ['#5b8cff', '#4dd4ac', '#ff9e6b', '#c77dff', '#ffd43b'].forEach((col, i) => { x.fillStyle = col; rr(x, 124 + i * 22, 199, 16, 16, 5); x.fill(); });
+    return c;
+  }
+  function watchFace() {
+    const c = document.createElement('canvas'); c.width = 200; c.height = 250; const x = c.getContext('2d');
+    x.fillStyle = '#05070e'; x.fillRect(0, 0, 200, 250);
+    x.strokeStyle = 'rgba(255,255,255,0.5)'; x.lineWidth = 3;
+    for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6, cx = 100, cy = 125; x.beginPath(); x.moveTo(cx + Math.cos(a) * 88, cy + Math.sin(a) * 88); x.lineTo(cx + Math.cos(a) * 78, cy + Math.sin(a) * 78); x.stroke(); }
+    x.fillStyle = '#ff4d6d'; x.beginPath(); x.arc(64, 84, 5, 0, 7); x.fill();
+    x.fillStyle = '#a6ff4d'; x.beginPath(); x.arc(136, 84, 5, 0, 7); x.fill();
+    return c;
+  }
+  function ipadScreen() {
+    const c = document.createElement('canvas'); c.width = 300; c.height = 410; const x = c.getContext('2d');
+    const g = x.createRadialGradient(150, 140, 10, 150, 140, 360); g.addColorStop(0, '#5b6cff'); g.addColorStop(0.6, '#26368f'); g.addColorStop(1, '#0c1640'); x.fillStyle = g; x.fillRect(0, 0, 300, 410);
+    const pal = ['#ff6b6b', '#4dd4ac', '#ffd166', '#5b8cff', '#c77dff', '#ff9e6b', '#4dc9ff', '#8ce99a']; let k = 0;
+    for (let r = 0; r < 4; r++) for (let cc = 0; cc < 4; cc++) { x.fillStyle = pal[k % pal.length]; rr(x, 38 + cc * 60, 78 + r * 68, 42, 42, 12); x.fill(); k++; }
+    x.fillStyle = 'rgba(255,255,255,0.16)'; rr(x, 50, 358, 200, 42, 18); x.fill();
+    return c;
+  }
+
+  /* ---- model builders: return { group, spin, update? } ---- */
+  const BUILDERS = {
+    phone() {
+      const g = new THREE.Group();
+      const bg = new THREE.ExtrudeGeometry(roundedRectShape(1.4, 2.85, 0.32), { depth: 0.22, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3, curveSegments: 18 });
+      bg.center(); g.add(new THREE.Mesh(bg, std(0x8895ad, 0.95, 0.16)));
+      const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.26, 2.66), screenMat(phoneScreen())); scr.position.z = 0.122; g.add(scr);
+      const isl = new THREE.Mesh(new THREE.ShapeGeometry(roundedRectShape(0.4, 0.12, 0.06)), new THREE.MeshBasicMaterial({ color: 0x05060c })); isl.position.set(0, 1.06, 0.124); g.add(isl);
+      const cam = new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRectShape(0.72, 0.72, 0.2), { depth: 0.06, bevelEnabled: false }), std(0x2a3242, 0.9, 0.3)); cam.position.set(-0.26, 0.78, -0.13); cam.rotation.y = Math.PI; g.add(cam);
+      [[-0.15, 0.15], [0.15, 0.15], [0, -0.15]].forEach(([lx, ly]) => { const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.08, 22), std(0x0a1230, 0.6, 0.05)); lens.rotation.x = Math.PI / 2; lens.position.set(-0.26 + lx, 0.78 + ly, -0.17); g.add(lens); });
+      g.rotation.set(0.05, -0.5, 0); return { group: g, spin: 0.012 };
+    },
+    laptop() {
+      const g = new THREE.Group(); const m = std(0xaeb6c6, 0.9, 0.28);
+      const base = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.12, 1.7), m); base.position.y = -0.4; g.add(base);
+      const kb = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.02, 1.05), std(0x20283a, 0.4, 0.6)); kb.position.set(0, -0.33, -0.05); g.add(kb);
+      const tp = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.02, 0.5), std(0x2a3450, 0.3, 0.5)); tp.position.set(0, -0.33, 0.6); g.add(tp);
+      const pivot = new THREE.Group(); pivot.position.set(0, -0.46, -0.82);
+      pivot.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.7, 0.07), m), { position: new THREE.Vector3(0, 0.85, 0) }));
+      const lscr = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.5), screenMat(laptopScreen())); lscr.position.set(0, 0.85, 0.05); pivot.add(lscr);
+      g.add(pivot); pivot.rotation.x = -1.15; g.rotation.set(0, -0.5, 0);
+      return { group: g, spin: 0.01, update(t, hovered) { const tgt = hovered ? -1.66 : -1.12; pivot.rotation.x += (tgt - pivot.rotation.x) * 0.1; } };
+    },
+    airpods() {
+      const g = new THREE.Group(); const m = std(0xf0f3fa, 0.2, 0.25);
+      const cs = new THREE.ExtrudeGeometry(roundedRectShape(1.3, 1.5, 0.5), { depth: 0.9, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.08, bevelSegments: 3, curveSegments: 18 }); cs.center();
+      g.add(new THREE.Mesh(cs, m));
+      [-0.33, 0.33].forEach((bx) => {
+        const bud = new THREE.Group();
+        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.07, 0.55, 16), m); stem.position.y = -0.12; bud.add(stem);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 16), m); head.position.y = 0.2; head.scale.set(1, 0.9, 1.15); bud.add(head);
+        bud.position.set(bx, 0.55, 0.12); bud.rotation.z = bx < 0 ? 0.12 : -0.12; g.add(bud);
+      });
+      g.rotation.set(0.1, -0.4, 0); return { group: g, spin: 0.013 };
+    },
+    watch() {
+      const g = new THREE.Group();
+      const bg = new THREE.ExtrudeGeometry(roundedRectShape(1.5, 1.82, 0.5), { depth: 0.5, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3, curveSegments: 18 }); bg.center();
+      g.add(new THREE.Mesh(bg, std(0x2b3344, 0.95, 0.2)));
+      const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 1.5), screenMat(watchFace())); scr.position.z = 0.26; g.add(scr);
+      const band = std(0x1a1f2e, 0.2, 0.7);
+      const bt = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.7, 0.18), band); bt.position.set(0, 1.2, 0); g.add(bt);
+      const bb = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.7, 0.18), band); bb.position.set(0, -1.2, 0); g.add(bb);
+      const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.14, 16), std(0xc8ccd6, 0.9, 0.25)); crown.rotation.z = Math.PI / 2; crown.position.set(0.8, 0.2, 0); g.add(crown);
+      const hub = new THREE.Group(); hub.position.z = 0.27; g.add(hub);
+      const hMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const hour = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.42), hMat); hour.geometry.translate(0, 0.16, 0); hub.add(hour);
+      const min = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.62), hMat); min.geometry.translate(0, 0.26, 0); hub.add(min);
+      g.rotation.set(0.04, -0.3, 0);
+      return { group: g, spin: 0.008, update(t) { min.rotation.z = -t * 0.03; hour.rotation.z = -t * 0.0025; } };
+    },
+    ipad() {
+      const g = new THREE.Group();
+      const bg = new THREE.ExtrudeGeometry(roundedRectShape(2.0, 2.72, 0.14), { depth: 0.12, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2, curveSegments: 14 }); bg.center();
+      g.add(new THREE.Mesh(bg, std(0x9aa3b6, 0.9, 0.3)));
+      const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.86, 2.56), screenMat(ipadScreen())); scr.position.z = 0.066; g.add(scr);
+      const cam = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.05, 18), std(0x0a1230, 0.6, 0.1)); cam.rotation.x = Math.PI / 2; cam.position.set(-0.72, 1.05, -0.075); g.add(cam);
+      const logo = new THREE.Mesh(new THREE.CircleGeometry(0.18, 24), new THREE.MeshStandardMaterial({ color: 0xc6ccd8, metalness: 0.6, roughness: 0.4 })); logo.position.set(0, 0, -0.071); logo.rotation.y = Math.PI; g.add(logo);
+      g.rotation.set(0.04, -0.3, 0); return { group: g, spin: 0.013 };
+    },
+    speaker() {
+      const g = new THREE.Group();
+      const cyl = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.06, 2.15, 48, 1, false), std(0x6b7388, 0.1, 0.85)); g.add(cyl);
+      const top = new THREE.Mesh(new THREE.CircleGeometry(0.95, 48), std(0x1a2236, 0.5, 0.2)); top.rotation.x = -Math.PI / 2; top.position.y = 1.08; g.add(top);
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.3, 0.5, 36), new THREE.MeshBasicMaterial({ color: 0x3aa0ff, transparent: true, opacity: 0.6, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 1.09; g.add(ring);
+      g.rotation.set(0, -0.3, 0);
+      return { group: g, spin: 0.006, update(t) { const s = 1 + 0.02 * Math.sin(t * 0.07); g.scale.set(s, 1 + (s - 1) * 0.4, s); ring.material.opacity = 0.35 + 0.35 * (0.5 + 0.5 * Math.sin(t * 0.07)); } };
+    }
+  };
+
+  function createMini(canvas, kind) {
+    let renderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' }); }
+    catch (e) { return false; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+    camera.position.set(0, 0.2, 5.6); camera.lookAt(0, 0, 0);
+    scene.add(new THREE.AmbientLight(0x33405f, 0.85));
+    const k = new THREE.DirectionalLight(0xdfe7ff, 2.5); k.position.set(-4, 5, 5); scene.add(k);
+    const r2 = new THREE.DirectionalLight(0xffcaa0, 1.0); r2.position.set(4, 1.5, 2); scene.add(r2);
+
+    const built = BUILDERS[kind] ? BUILDERS[kind]() : BUILDERS.phone();
+    const model = built.group; scene.add(model);
+    const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 3.6), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false }));
+    shadow.rotation.x = -Math.PI / 2; shadow.position.y = -1.5; scene.add(shadow);
+
+    function size() {
+      const r = canvas.getBoundingClientRect();
+      const w = Math.max(1, r.width), h = Math.max(1, r.height);
+      renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    }
+
+    let hovered = false, dragging = false, lastX = 0, lastY = 0, vel = 0;
+    canvas.addEventListener('pointerenter', () => { hovered = true; loop(); });
+    canvas.addEventListener('pointerleave', () => { hovered = false; });
+    canvas.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; lastY = e.clientY; vel = 0; try { canvas.setPointerCapture(e.pointerId); } catch (_) {} loop(); });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      model.rotation.y += dx * 0.01;
+      model.rotation.x = Math.max(-0.85, Math.min(0.85, model.rotation.x + dy * 0.01));
+      vel = dx * 0.01; lastX = e.clientX; lastY = e.clientY;
+    });
+    const endDrag = () => { dragging = false; };
+    canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+    let visible = false, running = false, t = 0;
+    function loop() { if (running) return; running = true; raf(); }
+    function raf() {
+      if (!visible || document.hidden) { running = false; return; }
+      t += 1;
+      if (dragging) { /* user drives rotation */ }
+      else if (Math.abs(vel) > 0.0002) { model.rotation.y += vel; vel *= 0.94; } // momentum after release
+      else if (!hovered && !reduce) { model.rotation.y += built.spin; }            // auto-rotate, paused on hover
+      if (built.update && (!reduce || hovered)) built.update(t, hovered);
+      renderer.render(scene, camera);
+      if (reduce && !dragging && !hovered && Math.abs(vel) <= 0.0002) { running = false; return; } // idle under reduced motion
+      requestAnimationFrame(raf);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible) { size(); loop(); } }, { threshold: 0.05 }).observe(canvas);
+    } else { visible = true; }
+    window.addEventListener('resize', () => { if (visible) size(); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && visible) loop(); });
+    size(); renderer.render(scene, camera); loop();
+    return true;
+  }
+
+  document.querySelectorAll('.card__art[data-model]').forEach((art) => {
+    const canvas = document.createElement('canvas'); canvas.className = 'mini'; canvas.setAttribute('aria-hidden', 'true');
+    art.appendChild(canvas);
+    if (createMini(canvas, art.dataset.model)) art.classList.add('has-3d');
+    else canvas.remove();
+  });
 })();
 </script>
 </body>
